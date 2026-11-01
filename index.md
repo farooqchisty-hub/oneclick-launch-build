@@ -15,7 +15,7 @@ Last updated 1 Nov 2026. Companion docs: [SaaS plan](SAAS_PLAN) (architecture an
 | Pilot 3: Brevo (brevo.com) | Live since 1 Nov, 400 planned. No Google identity yet. |
 | Landing page (agent build, stand-in) | https://oneclick-launch.pages.dev/site/ with the real `POST /api/preview` |
 | Customer + admin dashboards | https://oneclick-launch.pages.dev/app/ (admin at `#/admin`, key in sessionStorage for now) |
-| SEO and traffic metrics of directories | Agent running (Ahrefs DR, refdomains, organic traffic; Similarweb visits; dofollow check). Output: `research/directory_metrics.csv` and `_summary.md`. |
+| SEO and traffic metrics | Done, see section 3a. |
 | Payments, auth, onboarding | Not built. Designed below. |
 
 ## 2. Customer flow (designed)
@@ -70,6 +70,58 @@ Every listing we do falls into one of these value buckets:
 | **Always-on** (monthly) | Pro, plus monthly submission to new directories as the catalog grows (research agents add about 50 to 70 a month), re-submission when a listing drops, and multi-product (up to 3 products) | Catalog freshness becomes recurring revenue |
 
 To decide after the metrics land: the exact DR threshold, how many are dofollow, combined traffic per tier, and prices. Unit cost per order is about $2 to $4 (Pro higher with Google: Kernel time).
+
+## 3a. Network metrics (measured 1 Nov 2026)
+
+539 directories measured: Ahrefs DR, referring domains and organic traffic (from Ahrefs' public checkers, via Apify), plus Similarweb monthly visits and a dofollow check of one listing page per directory. Cost: about $8.
+
+| | Directories | Monthly visits | Organic traffic | Median DR |
+|---|---|---|---|---|
+| Whole catalog | 539 | 24.3M | 7.9M | 32 |
+| Accepted the pilot (Ad Studio) | 137 | 7.5M | 2.4M | 21 |
+
+**DR spread:**
+
+| DR band | Directories |
+|---|---|
+| 70+ | 44 |
+| 50 to 69 | 81 |
+| 30 to 49 | 166 |
+| 10 to 29 | 133 |
+| 0 to 9 | 105 |
+
+**Dofollow:** 198 confirmed, 167 nofollow, 174 unknown (bot walls or links rendered by script).
+
+**Caveats:**
+- The top 5 sites carry 43% of visits.
+- 114 of the 211 DR 40+ sites get under 100 organic visits a month, which usually means link-built authority.
+- Dofollow is one sampled page per site: spot-check before selling a dofollow guarantee.
+
+**Packs the data supports:**
+
+| Pack | Directories | Combined visits |
+|---|---|---|
+| Proven authority (DR 40+ and 5K+ visits) | 122 | 20.6M |
+| DR 70+ | 44 | 14.3M |
+| Dofollow | 198 | 5.3M |
+| Dofollow and DR 40+ | 61 | 3.7M |
+| 100K+ visits | 41 | 19.8M |
+| AI directories | 115 | 2.1M |
+
+**Marketing lines we can honestly claim (rounded down):**
+- 500+ launch directories.
+- Over 24 million visits a month combined (Similarweb estimates).
+- Over 200 directories at Ahrefs DR 40+, and 40+ at DR 70+.
+- Over 140 directories that each get 10,000+ visits a month.
+- Nearly 200 directories give dofollow links.
+- Our pilot product was submitted to 130+ directories with a combined 7 million monthly visits.
+
+The engine now runs high-DR directories first in every plan (DR stored as directory authority).
+
+**Proposed plan cut-offs:**
+- **Launch:** the whole catalog, with a guaranteed floor of successful submissions.
+- **Pro:** adds the Google sign-in directories, priority and extra retries on the Proven authority pack (122) and the Dofollow pack (198), and the 30-day traffic report.
+- **Always-on:** monthly.
 
 ## 4. Google identities (Cloud Identity Free on thereisnomoat.fyi)
 
