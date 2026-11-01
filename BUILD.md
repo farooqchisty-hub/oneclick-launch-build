@@ -1,6 +1,6 @@
 # One-Click Launch: build doc
 
-Last updated 1 Nov 2026. Companion to [SAAS_PLAN.md](SAAS_PLAN.md) (architecture and launch plan) and [CLAUDE_DESIGN_PROMPT.md](CLAUDE_DESIGN_PROMPT.md) (landing page brief).
+Last updated 2 Nov 2026. Companion to [SAAS_PLAN.md](SAAS_PLAN.md) (architecture and launch plan) and [CLAUDE_DESIGN_PROMPT.md](CLAUDE_DESIGN_PROMPT.md) (landing page brief).
 
 ---
 
@@ -9,14 +9,21 @@ Last updated 1 Nov 2026. Companion to [SAAS_PLAN.md](SAAS_PLAN.md) (architecture
 | Area | State |
 |---|---|
 | Delivery engine (Cloudflare Worker `ocl-core`) | Live. Crawl to kit, plan, drip, live submissions, inbox, vault, Kernel stealth, Google lane, badge lane, proof, UTM links, recipes, sweeper, retries, pacing. Models on OpenRouter (gpt-6-luna, haiku-5.5 fallback). |
-| Catalog | 796 directories researched, 545 enabled. Lanes: automated, stealth (bot checks), badge, Google sign-in. Niche directories carry fit tags. |
-| Pilot 1: Ad Studio (ads.brevo.com) | 134+ accepted, Google lane running at 25/day. |
-| Pilot 2: PushOwl (pushowl.com) | Live since 1 Nov, 400 planned. No Google identity yet. |
-| Pilot 3: Brevo (brevo.com) | Live since 1 Nov, 400 planned. No Google identity yet. |
-| Landing page (agent build, stand-in) | https://oneclick-launch.pages.dev/site/ with the real `POST /api/preview` |
-| Customer + admin dashboards | https://oneclick-launch.pages.dev/app/ (admin at `#/admin`, key in sessionStorage for now) |
-| SEO and traffic metrics | Done, see section 3a. |
-| Payments, auth, onboarding | Not built. Designed below. |
+| Catalog | 839 directories, about 760 enabled. Each product is planned on 754. |
+| Pilot 1: Ad Studio (ads.brevo.com) | 161 accepted. 126 Google directories queued (lane paused by Google phone prompts). |
+| Pilot 2: PushOwl (pushowl.com) | 139 accepted. Re-planned from 319 to 754 directories on 1 Nov. |
+| Pilot 3: Brevo (brevo.com) | 142 accepted. Re-planned from 319 to 754 directories on 1 Nov. |
+| Admin dashboard | Live data: ops, directory health, cost per product, run explorer, live feed, inbox, alerts, admin actions. https://oneclick-launch.pages.dev/app/#/admin |
+| Customer side | Built and deployed: accounts (email link, Google), Stripe checkout and webhook, orders that launch themselves with 24h and 48h deadlines, welcome, one-screen onboarding, customer dashboard on real data. Waiting on Stripe, Brevo and Google OAuth keys. |
+| In progress | Pro plan gates the Google lane, daily mail digest or forward-all, refunds, renewals, delivery marking, CSV report. |
+| Landing page | Agent stand-in at https://oneclick-launch.pages.dev/site/ (Claude Design version pending). |
+
+### Engine changes on 1 Nov
+- A directory is switched off only after 3 different products fail on it. Before, one miss switched it off for everyone: 268 directories had been dropped that way (40 had worked for another product). All are back on.
+- Required fields are never left empty: missing links get the website URL, text boxes get the closest kit copy, categories get the closest option, any empty email box gets the product's directory inbox.
+- Inbox: the agent sends a magic link before waiting for it, enters code-only verification mails, and accepts Firebase sign-in links.
+- 43 qualified directories from the research passes imported; 5 Google-only directories moved to the Google lane; 12 "complex" directories re-enabled.
+- Google lane browser uses one static ISP exit IP from the next sign-in.
 
 ## 2. Customer flow (designed)
 
@@ -123,24 +130,30 @@ The engine now runs high-DR directories first in every plan (DR stored as direct
 - **Pro:** adds the Google sign-in directories, priority and extra retries on the Proven authority pack (122) and the Dofollow pack (198), and the 30-day traffic report.
 - **Always-on:** monthly.
 
-## 4. Google identities (Cloud Identity Free on thereisnomoat.fyi)
+## 4. Google lane (Google accounts with a software passkey)
 
-Why: Google-only directories need a Google account per customer. Consumer Gmail can't be created by a product (phone checks, bulk-creation bans). Cloud Identity Free gives free, admin-created Google accounts on our domain (no Gmail; mail keeps flowing to our catch-all inbox). The default cap is 50 users, and more on request.
+About 200 directories only accept "Sign in with Google". What we learned on 1 and 2 Nov:
+- **Brand-new accounts are blocked.** Cloud Identity users on thereisnomoat.fyi got "Couldn't sign you in" at the first sign-in, even on a real Mac with a phone code. Only older Google accounts work.
+- **Every new directory triggers "Verify it's you".** The only choices offered are a phone tap or a passkey (no authenticator codes).
+- **The fix:** each Google account holds a software passkey (a WebAuthn credential the engine keeps sealed). When Google asks, the engine loads it on Google's tab and clicks "Use your passkey". No person, no phone.
 
-**Steps for Farooq** (I can't create the account or the API key for you):
-1. Open https://workspace.google.com/gcpidentity/signup?sku=identitybasic (Cloud Identity Free).
-2. Business name, "Just you", country, then your contact email (your Gmail).
-3. "Does your business have a domain?" Yes: `thereisnomoat.fyi`.
-4. Create the admin user, e.g. `admin@thereisnomoat.fyi`, and save the password in 1Password.
-5. Domain verification: Google shows a TXT record (`google-site-verification=...`). Tell me and I'll add it in Cloudflare through your Chrome, or add it yourself. **Do not change MX records** if Google suggests it (no Gmail here; the catch-all inbox must stay).
-6. Google Cloud console (https://console.cloud.google.com), signed in as that admin:
-   - create a project `ocl-identity`;
-   - enable **Admin SDK API**;
-   - IAM, then Service accounts: create `ocl-provisioner`, then Keys, then add a JSON key, and save it as `~/.gcp_identity_key.json`.
-7. Admin console (https://admin.google.com): Security, then Access and data control, then API controls, then **Domain-wide delegation**, then Add new.
-   - Client ID: the service account's client ID.
-   - Scope: `https://www.googleapis.com/auth/admin.directory.user`.
-8. Tell me "identity ready". I'll create 3 test identities, sign each in from a Kernel browser, and run a few Google-only directories to see whether Google challenges brand-new accounts.
+**Where accounts come from**
+- **Pool:** older Gmails we own (agentsyshop@gmail.com today). One pool account serves up to 5 products; products take one automatically when they get the Google lane.
+- **Customer's own (optional):** at checkout and on the dashboard, "Get about 200 more listings: connect a Google account". Honest copy: what the passkey is for, that every sign-in is listed, that we remove it and sign out when the launch finishes, and to use a work or secondary account.
+
+**Connecting an account (about 2 minutes of a person)**
+1. Admin, Google accounts, enter the Gmail, **Connect a Gmail** (or the customer's Connect Google button). A cloud browser window opens on Google's sign-in page; sign in with the password.
+2. **Start passkey step**, then click **Create a passkey** in the window (if Google says it can't, **Use another device**). The engine attaches the software passkey device and saves the credential.
+3. **Approve** the new passkey on a phone or laptop already signed in to that account (Google Account, Passkeys, Approve). Otherwise Google holds new passkeys for a security delay.
+4. Status turns **ready** by itself; the lane starts.
+
+**How it runs**
+- One long-lived Kernel browser per account (static ISP exit IP). Pacing and pauses are per account: one Google sign-in every 5 minutes across all its products, at most 80 a day, a 6-hour pause if Google still stops a sign-in.
+- Customer accounts are removed when the order is delivered: the engine deletes our passkey on Google's passkeys page, signs out and deletes the browser. A failure raises a high alert with manual steps.
+
+**Routes**
+- Admin: `GET/POST /api/admin/google-accounts`, `GET /api/admin/google-accounts/:id`, `POST .../:id/passkey`, `POST .../:id/remove`, `POST .../:id/unpause`, `POST /api/admin/google-accounts/assign/:productId`.
+- Customer: `GET /api/orders/:id/google` (status and sign-in log), `POST /api/orders/:id/google/connect`, `POST /api/orders/:id/google/passkey`.
 
 ## 5. Decisions pending (yours)
 
@@ -149,7 +162,7 @@ Why: Google-only directories need a Google account per customer. Consumer Gmail 
 3. **Plans and prices:** Launch, Pro, Always-on as above, or simpler. Base price placeholder is $49.
 4. **Guarantee or refund wording,** e.g. "100+ submissions or we refund the difference".
 5. **Stripe account:** which entity charges (personal, a new company, or Brevo).
-6. **Google identities:** Cloud Identity setup (section 4). Fallback: Workspace at $7 to $8.40 per user per month.
+6. **Google accounts:** more older Gmails for the pool (section 4). Cloud Identity accounts are blocked by Google as too new.
 7. **Directory emails to customers:** a daily digest (proposed default) or forward everything.
 8. **Data retention:** identities kept (free), customer data deleted 90 days after delivery (proposed).
 9. **Badge block for the pilot:** whether ads.brevo.com, pushowl.com and brevo.com add a "Featured on" footer block (unlocks the badge-gated directories).
@@ -158,7 +171,7 @@ Why: Google-only directories need a Google account per customer. Consumer Gmail 
 ## 6. Build order from here
 
 1. Finish the pilots (3 products) and fix the failure clusters they show (top: forms that never advance).
-2. Google identities (once section 4 is done), then give PushOwl and Brevo the Google lane.
+2. Google lane: done on all three pilots through the pool account (section 4); add pool Gmails as they come.
 3. Accounts: users, sessions, Google OAuth for our app, magic link via Brevo.
 4. Orders and Stripe Checkout plus the webhook; the deadline scheduler keyed by order.
 5. Onboarding screen and the blurred teaser on the landing page (on the Claude Design version).
@@ -169,6 +182,6 @@ Why: Google-only directories need a Google account per customer. Consumer Gmail 
 ## 7. Notes and explanations
 
 - **Admin key:** the dashboard uses the shared admin key until Cloudflare Access is set up. Rotate it after Access is live.
-- **Google lane on Ad Studio:** runs in one signed-in Kernel browser, paced (1 per 12 minutes, 25 a day, a 6-hour pause after any Google challenge). The browser lives 72 hours idle, so if the lane stops for 3 days you'll need to sign in again.
-- **Known engine debt:** forms that never advance (largest cluster), status-text noise from other forms on the page, and Kernel's visible-captcha solver (skipped by your decision).
+- **Google lane:** each Google account lives in one signed-in Kernel browser (section 4). The browser lives 72 hours idle, so an account whose lane stops for 3 days needs signing in again.
+- **Known engine debt:** forms that never advance (largest cluster), status-text noise from other forms on the page, and image-text captchas Kernel's solver does not take (reCAPTCHA, hCaptcha and Cloudflare checks are solved).
 - **Keys used during the build that should be rotated before launch:** the Kernel key (pasted in chat) and the admin key.
