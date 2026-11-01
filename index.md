@@ -1,6 +1,6 @@
 # One-Click Launch: build doc
 
-Last updated 1 Nov 2026. Companion to [SAAS_PLAN.md](SAAS_PLAN.md) (architecture and launch plan) and [CLAUDE_DESIGN_PROMPT.md](CLAUDE_DESIGN_PROMPT.md) (landing page brief).
+Last updated 1 Nov 2026. Companion docs: [SaaS plan](SAAS_PLAN) (architecture and launch plan) and [Claude Design prompt](CLAUDE_DESIGN_PROMPT) (landing page brief).
 
 ---
 
