@@ -2,6 +2,9 @@
 
 Last updated 1 Nov 2026 (evening). Companion to [SAAS_PLAN.md](SAAS_PLAN.md) (architecture and launch plan) and [CLAUDE_DESIGN_PROMPT.md](CLAUDE_DESIGN_PROMPT.md) (landing page brief).
 
+
+**Directory offering (4 Nov):** the directories we can put in the offer, with proof per pilot: [offering.html](offering.html)
+
 ---
 
 ## 1. Where things stand
