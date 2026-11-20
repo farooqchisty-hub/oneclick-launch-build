@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monthly Allowance Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#16181d;--ink2:#4a4f5a;--muted:#7a808c;--line:#e6e6e1;--ok:#1f7a4d;--okbg:#e3f3ea;--info:#2554b8;--infobg:#e6edfb;--warn:#8a5a00;--warnbg:#fbf0d9}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1115;--card:#171a20;--ink:#eceef2;--ink2:#b6bbc6;--muted:#878d99;--line:#262a33;--ok:#6fd3a0;--okbg:#14301f;--info:#8fb1ff;--infobg:#17233f;--warn:#f0c46a;--warnbg:#33280f}}
+:root[data-theme="dark"]{--bg:#0f1115;--card:#171a20;--ink:#eceef2;--ink2:#b6bbc6;--muted:#878d99;--line:#262a33;--ok:#6fd3a0;--okbg:#14301f;--info:#8fb1ff;--infobg:#17233f;--warn:#f0c46a;--warnbg:#33280f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:40px 16px 80px}
+h1{font-size:30px;line-height:1.15;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:19px;margin:40px 0 8px}
+h3{font-size:15px;margin:22px 0 6px}
+.lede{color:var(--ink2);margin:0 0 20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:12px 0}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:999px}
+.ok{background:var(--okbg);color:var(--ok)}.info{background:var(--infobg);color:var(--info)}.warn{background:var(--warnbg);color:var(--warn)}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+code{font:13px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 5px}
+ul,ol{padding-left:20px}li{margin:4px 0}
+.muted{color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.flow span{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:13px}
+.flow b{color:var(--muted);font-weight:500}
+.tablewrap{overflow-x:auto}
+</style></head>
+<body><div class="wrap">
+
+<p class="muted">One-Click Launch · engineering plan · 21 Nov 2026</p>
+<h1>Monthly allowance and buffer</h1>
+<p class="lede">Monthly customers get a fixed number of new accepted listings each month. New directories the finder adds beyond that wait in the customer's own buffer and are used in later months, for as long as Monthly stays on. The same page covers a finder second look that qualifies more of the sites it rejects, within the existing rules.</p>
+
+<h2>What Monthly promises today, and what the engine does</h2>
+<div class="card">
+<table>
+<tr><th>Monthly</th><th>Promise (site, terms, emails)</th><th>What the engine does now</th></tr>
+<tr><td>On top of Launch or Everything</td><td>At least 25 new accepted listings a month, or next month free. New directories every week.</td><td>Every newly payable directory joins the plan each week, with no limit.</td></tr>
+<tr><td>On its own</td><td>100 accepted listings in month 1, then 50 more each month, plus new directories every week.</td><td>Catalog capped at 100, then +50 a month; new directories on top with no limit.</td></tr>
+</table>
+<p>So today a big finder week (the 19 Nov import added 918 directories) goes to every Monthly customer at once, and a quiet week gives them almost nothing.</p>
+</div>
+
+<h2>The change</h2>
+<div class="flow"><span>Finder adds directories</span><b>→</b><span>a pilot gets accepted there (payable)</span><b>→</b><span>each Monthly customer's buffer</span><b>→</b><span>up to the monthly allowance this month</span><b>→</b><span>the rest waits for next month</span></div>
+<div class="card">
+<ul>
+<li><b>One number: the monthly allowance</b> (<code>MONTHLY.allowance</code>), counted in <b>accepted listings</b>, not sites. The engine works through as many buffered directories as it takes to reach it.</li>
+<li><b>The minimum guarantee stays</b> (25 a month on top of a launch). The allowance is the most a month gives; the guarantee is the least.</li>
+<li><b>The buffer is per customer and keeps growing</b> while Monthly is on: every directory that became payable after their launch and that they have not been submitted to yet. Unused allowance does not roll over; unused directories do.</li>
+<li><b>Best directories first</b>: proven before badge, then the directory's acceptance rate across products, then authority, then the oldest wait.</li>
+<li><b>Cancel</b>: the buffer stops with the paid period. <b>Come back</b>: it resumes where it stopped (it is computed, nothing is lost).</li>
+<li><b>What counts</b>: a new directory accepted, and a resubmit after a rejection that gets accepted. A keep-alive resubmit of a listing that was already live does not count.</li>
+</ul>
+</div>
+
+<h3>Why sites and listings differ</h3>
+<div class="card">
+<p>On paid-plan directories the five test products got <b>3,429 accepted of 6,694 tried (51%)</b>. So 400 new sites in a month is about 200 accepted listings for one customer, not 400. Supply per Monthly customer, measured:</p>
+<table>
+<tr><th>Finder month</th><th class="n">New directories</th><th class="n">Become payable</th><th class="n">Accepted per customer (about 51%)</th></tr>
+<tr><td>Quiet (15 to 70 a week; waves 7 and 8: 30% payable)</td><td class="n">60 to 280</td><td class="n">18 to 85</td><td class="n">9 to 43</td></tr>
+<tr><td>19 Nov research import (one-off; 45% payable so far)</td><td class="n">918</td><td class="n">413</td><td class="n">about 210</td></tr>
+</table>
+<p>With an allowance of 50, the 19 Nov import alone fills about four months of buffer, and quiet weeks still deliver. With 100, the buffer rarely holds anything back and the month-to-month swing stays.</p>
+</div>
+
+<h2>Engine work</h2>
+<div class="card tablewrap">
+<table>
+<tr><th>#</th><th>Where</th><th>Change</th></tr>
+<tr><td>1</td><td><code>src/plans.ts</code></td><td><code>MONTHLY.allowance</code> (one setting). Monthly on its own: month 1 stays 100 from the catalog; after that the allowance replaces the +50 step, drawn from catalog remainder and new directories alike.</td></tr>
+<tr><td>2</td><td><code>src/entitle.ts</code></td><td><code>allowanceRoom(product)</code>: allowance minus this billing period's counted new listings minus in-flight listings times the directory acceptance rate (the same projection the Launch cap already uses, PIPE-7). Billing period from the Monthly order's <code>period_start</code> and <code>period_end</code>.</td></tr>
+<tr><td>3</td><td><code>src/index.ts</code> drip, <code>nextItems</code></td><td>New directories (<code>NEW_DIR_SQL</code>) are queued only while <code>allowanceRoom</code> is above zero, best first as above. The weekly replan still adds them to the plan, so the plan is the buffer.</td></tr>
+<tr><td>4</td><td><code>src/monthly.ts</code></td><td>Resubmits after a rejection draw from the same allowance; keep-alive requeues do not. Period end: the report says this month's count, the allowance and the buffer size; the free-month alert for a miss under 25 stays.</td></tr>
+<tr><td>5</td><td>Customer API and dashboard</td><td><code>GET /api/orders/:id</code> adds <code>monthly.this_month</code>, <code>allowance</code>, <code>buffer</code>. Monthly card: "This month: 38 of 50 new listings · 212 directories saved for your next months".</td></tr>
+<tr><td>6</td><td>Admin and alerts</td><td>Buffer size per Monthly customer on the admin view. Alert when a customer's buffer is empty and the month is on pace to miss 25.</td></tr>
+<tr><td>7</td><td>Tests</td><td>Entitlement checks: allowance reached stops new directories; a new period reopens them; rejected-then-accepted counts; keep-alive does not; Launch cap and Everything unchanged. Then deploy with the drain and the 25-site canary.</td></tr>
+</table>
+<p class="muted">No migration: the buffer is computed from the plan, the listings and the directory verdicts. Capacity gets easier: a Monthly customer's load becomes predictable (about 2 directories tried per allowed listing).</p>
+</div>
+
+<h2>Copy to change</h2>
+<div class="card tablewrap">
+<table>
+<tr><th>Where</th><th>Now</th><th>New</th></tr>
+<tr><td>Landing, plan card and checkout picker (<code>public/site/index.html</code>)</td><td>25+ new accepted listings a month · New directories every week</td><td>Up to {allowance} new accepted listings a month, at least 25 · New directories we find are saved for you</td></tr>
+<tr><td>Terms (<code>terms.html</code>) and refund page (<code>refund.html</code>)</td><td>New directories every week; at least 25 a month</td><td>Up to {allowance} a month from new directories and resubmits; at least 25, or the next month free (credit, not refund). Directories beyond the month's allowance are kept for later months while Monthly is on.</td></tr>
+<tr><td>Dashboard (<code>customer.js</code>) Monthly card and free-month notice</td><td>New directories every week, resubmits...</td><td>This month: X of {allowance} · N directories saved for your next months</td></tr>
+<tr><td>Emails (<code>src/notify.ts</code>: Monthly start, free month, monthly report)</td><td>New directories every week</td><td>Up to {allowance} new accepted listings a month, plus the count saved for next month in each report</td></tr>
+<tr><td>Dodo product description (<code>scripts/dodo_copy.py</code>)</td><td>New directories every week</td><td>Same line as the landing card</td></tr>
+</table>
+</div>
+
+<h2>Finder: qualify more of what it rejects</h2>
+<p class="lede">The 19 Nov import rejected 1,848 sites. Your rule stands: only real paywalls stay out, captcha and badge sites go in, phone fields get the business phone (skip only when a code is sent). Most rejections are sites with no way to submit at all; loosening those would only add runs that fail.</p>
+<div class="card tablewrap">
+<table>
+<tr><th>Rejected for</th><th class="n">19 Nov</th><th class="n">All runs</th><th>Plan</th></tr>
+<tr><td>Phone number required</td><td class="n">7</td><td class="n">7</td><td><span class="tag ok">include</span> Against the phone rule to exclude: the engine fills the business phone and skips only if a code arrives (foursquare, bark, aussieweb...).</td></tr>
+<tr><td>Own-domain email required</td><td class="n">7</td><td class="n">18</td><td><span class="tag ok">include</span> Company email now handles these: added as company-email sites.</td></tr>
+<tr><td>Dead (site down)</td><td class="n">108</td><td class="n">301</td><td><span class="tag ok">recheck</span> Look again after 30 days instead of excluding for good.</td></tr>
+<tr><td>No submission path on the home page</td><td class="n">1,311</td><td class="n">1,523</td><td><span class="tag info">second look</span> Before excluding, try the usual submit addresses (/submit, /add, /suggest...) and the sitemap. A 120-site sample found a real form on about 4%: about 50 to 60 more sites.</td></tr>
+<tr><td>Submission by email only</td><td class="n">32</td><td class="n">55</td><td><span class="tag info">build</span> An email lane: a short submission from the product's own listing address; replies land in the inbox as today. Needs more sending room (see capacity).</td></tr>
+<tr><td>Sign in with GitHub, LinkedIn or X only</td><td class="n">7</td><td class="n">13</td><td><span class="tag warn">later</span> Needs a pool account per network, like the Google lane.</td></tr>
+<tr><td>Pull request on GitHub only</td><td class="n">15</td><td class="n">21</td><td><span class="tag warn">later</span> Needs a GitHub account and a PR lane.</td></tr>
+<tr><td>Real paywall</td><td class="n">176</td><td class="n">433</td><td>Stays out (your rule).</td></tr>
+<tr><td>Unsafe, duplicate, reseller, integration or app store only, identity check</td><td class="n">191</td><td class="n"></td><td>Stays out: gambling and spam farms, repeats, or no product listing at all.</td></tr>
+</table>
+<p>Include, recheck and second look: about 75 more sites now plus the dead ones that come back. The email lane adds about 55 more. Code: <code>discover/src/index.ts</code> judge rules (new rule version, so the next run re-judges older rejections automatically), and a <code>mail</code> lane in the engine.</p>
+</div>
+
+<h2>Order of work</h2>
+<div class="card">
+<ol>
+<li>Pick the allowance (recommended 50 a month on top of a launch, guarantee stays 25).</li>
+<li>Engine changes 1 to 7, then the copy, one deploy, canary.</li>
+<li>Finder rule update (include, recheck, second look); it re-judges on the next Sunday run.</li>
+<li>Email submission lane, after more sending room is in place.</li>
+</ol>
+</div>
+
+</div></body></html>
