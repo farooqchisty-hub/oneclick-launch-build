@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Self-Launch Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--ink:#16181d;--ink2:#4a4f5a;--muted:#7a808c;--line:#e6e6e1;--ok:#1f7a4d;--okbg:#e3f3ea;--warn:#8a5a00;--warnbg:#fbf0d9;--bad:#a1261b;--badbg:#fbe5e2}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1115;--card:#171a20;--ink:#eceef2;--ink2:#b6bbc6;--muted:#878d99;--line:#262a33;--ok:#6fd3a0;--okbg:#14301f;--warn:#f0c46a;--warnbg:#33280f;--bad:#ff8f80;--badbg:#3a1714}}
+:root[data-theme="dark"]{--bg:#0f1115;--card:#171a20;--ink:#eceef2;--ink2:#b6bbc6;--muted:#878d99;--line:#262a33;--ok:#6fd3a0;--okbg:#14301f;--warn:#f0c46a;--warnbg:#33280f;--bad:#ff8f80;--badbg:#3a1714}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:40px 16px 80px}
+h1{font-size:28px;line-height:1.15;margin:0 0 6px;letter-spacing:-.02em}
+h2{font-size:18px;margin:40px 0 10px}
+.lede{color:var(--ink2);margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:14px 0}
+.step p{margin:0 0 10px}
+.step b.n{display:inline-block;min-width:24px;color:var(--muted);font-weight:600}
+.step img{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line)}
+ul{padding-left:18px;margin:6px 0}li{margin:5px 0}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-right:6px;vertical-align:1px}
+.ok{background:var(--okbg);color:var(--ok)}.warn{background:var(--warnbg);color:var(--warn)}.bad{background:var(--badbg);color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+</style></head>
+<body><div class="wrap">
+<p class="muted">One-Click Launch · end-to-end test · 21 Nov 2026</p>
+<h1>Launching One-Click Launch with itself</h1>
+<p class="lede">oneclicklaunch.dev bought as a customer: Everything, plus the High authority add-on, plus Monthly. Payments were simulated with Dodo's own signed webhook (no money moved). Customer email masked in screenshots.</p>
+
+<h2>The journey</h2>
+<div class="step"><p><b class="n">1</b>Free preview, first try: "We couldn't open that site". <span class="tag warn">open</span></p><img src="img/01_preview.jpg" alt="Preview stopped"></div>
+<div class="step"><p><b class="n">2</b>Second try: cleared for launch, 1,348 directories.</p><img src="img/02_preview.jpg" alt="Preview result"></div>
+<div class="step"><p><b class="n">3</b>Checkout, Everything $149 on Dodo with the new numbers. Payment simulated.</p><img src="img/03_dodo_checkout.jpg" alt="Dodo checkout"></div>
+<div class="step"><p><b class="n">4</b>Back from Dodo: signed in instantly, onboarding checks.</p><img src="img/04_onboarding.jpg" alt="Onboarding"></div>
+<div class="step"><p><b class="n">5</b>Site confirmed, listing kit approved. Badge block offered (about 62 more listings).</p><img src="img/05_onboarding_done.jpg" alt="Onboarding done"></div>
+<div class="step"><p><b class="n">6</b>Dashboard two minutes after paying: already "At risk". <span class="tag warn">open</span></p><img src="img/06_dashboard.jpg" alt="Dashboard"></div>
+<div class="step"><p><b class="n">7</b>"Add Google sign-in" is account login, not the add-on; Google accepts the new domain.</p><img src="img/07b_google_signin_option.jpg" alt="Google sign-in"></div>
+<div class="step"><p><b class="n">8</b>Add-ons on the dashboard: High authority $39, Monthly free month.</p><img src="img/07_addons_on_dashboard.jpg" alt="Add-ons"></div>
+<div class="step"><p><b class="n">9</b>High authority checkout, $39. Payment simulated.</p><img src="img/08_addon_checkout.jpg" alt="Add-on checkout"></div>
+<div class="step"><p><b class="n">10</b>Add-on on: connect a Google account (needs a person to sign in). <span class="tag warn">needs Farooq</span></p><img src="img/09_addon_active_connect.jpg" alt="Connect Google"></div>
+<div class="step"><p><b class="n">11</b>Monthly free month on Dodo: $0 today, then $29 a month. Start simulated.</p><img src="img/11_monthly_checkout.jpg" alt="Monthly checkout"></div>
+<div class="step"><p><b class="n">12</b>Monthly on: free until 21 Dec, 0 of up to 50 from new directories.</p><img src="img/12_monthly_on.jpg" alt="Monthly on"></div>
+<div class="step"><p><b class="n">13</b>Welcome link opened by a stranger: no sign-in, but it showed the full email. <span class="tag ok">fixed</span></p><img src="img/13_stranger_welcome.jpg" alt="Stranger welcome"></div>
+<div class="step"><p><b class="n">14</b>After the fixes: email from "Farooq from One-Click Launch", footer is brand and support only.</p><img src="img/14_email_from_farooq.jpg" alt="Email from Farooq"></div>
+<div class="step"><p><b class="n">15</b>25 minutes in: 31 accepted (6 live), on track for 350 by 48 hours.</p><img src="img/15_progress.jpg" alt="Progress"></div>
+
+<h2>Findings</h2>
+<div class="card"><ul>
+<li><span class="tag ok">fixed</span>Emails came from "One-Click Launch", not Farooq.</li>
+<li><span class="tag ok">fixed</span>Email links took the sentence's full stop, so the dashboard link broke.</li>
+<li><span class="tag ok">fixed</span>The welcome link showed the customer's email and mailed them a sign-in link on every visit. Now a hint only (f•••@gmail.com).</li>
+<li><span class="tag ok">fixed</span>Legal name and address removed from every email.</li>
+<li><span class="tag warn">open</span>First preview of a site can fail once ("couldn't open"); a retry works.</li>
+<li><span class="tag warn">open</span>"At risk" and "Behind pace" show in the first minutes after payment (turns "On track" once listings land).</li>
+<li><span class="tag warn">open</span>Two different Google buttons sit side by side (login and the add-on).</li>
+<li><span class="tag warn">open</span>Dodo checkout shows a plain "O" instead of the logo.</li>
+<li><span class="tag warn">open</span>This order counts as real revenue in stats; a missed guarantee would try a refund on a payment that never happened.</li>
+</ul></div>
+
+<h2>Security checks</h2>
+<div class="card"><ul>
+<li><span class="tag ok">pass</span>Forged webhook signature refused; replayed webhook ignored.</li>
+<li><span class="tag ok">pass</span>Order, file and admin APIs refuse requests without a session.</li>
+<li><span class="tag ok">pass</span>Another customer's files and path tricks return not found.</li>
+<li><span class="tag ok">pass</span>Other sites can't read customer data.</li>
+<li><span class="tag ok">pass</span>No passwords, tokens or the internal inbox domain in customer API responses.</li>
+<li><span class="tag ok">pass</span>Monthly can't be bought on its own.</li>
+<li><span class="tag ok">pass</span>Emails land in the inbox, from farooq@oneclicklaunch.dev.</li>
+</ul></div>
+</div></body></html>
