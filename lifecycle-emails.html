@@ -1,0 +1,1957 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Lifecycle Email Program</title>
+<meta name="description" content="One-Click Launch lifecycle email program: current inventory, transactional, notification and lifecycle drafts in Farooq's voice, program rules and build order.">
+<style>
+:root {
+  --bg: #f7f6f2; --surface: #ffffff; --surface-2: #f1efe9; --mail: #fffdf8;
+  --ink: #1c1b19; --ink-2: #4a4843; --mute: #74716a; --line: #e2ded4;
+  --accent: #2b59c3; --accent-soft: #e8eefb;
+  --t: #2b59c3; --t-soft: #e8eefb;
+  --n: #8a5600; --n-soft: #fbf0dc;
+  --svc: #1d7552; --svc-soft: #e3f3eb;
+  --m: #7338b0; --m-soft: #f0e8fa;
+  --bad: #b42318; --bad-soft: #fce8e6;
+  --tok-bg: #efe9fb; --tok-ink: #5a2d9e;
+  --cond-ink: #8a5600;
+  --shadow: 0 1px 2px rgba(20, 18, 14, .05), 0 4px 16px rgba(20, 18, 14, .04);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131312; --surface: #1b1b19; --surface-2: #23221f; --mail: #1f1e1b;
+    --ink: #ecebe6; --ink-2: #c6c3ba; --mute: #98958d; --line: #35332e;
+    --accent: #93b2ff; --accent-soft: #1f2a45;
+    --t: #93b2ff; --t-soft: #1f2a45;
+    --n: #f0b552; --n-soft: #3a2c12;
+    --svc: #73d4a6; --svc-soft: #15342a;
+    --m: #c8a0ff; --m-soft: #2e2343;
+    --bad: #ff8f85; --bad-soft: #3d1c19;
+    --tok-bg: #2e2445; --tok-ink: #d9c6ff;
+    --cond-ink: #f0b552;
+    --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131312; --surface: #1b1b19; --surface-2: #23221f; --mail: #1f1e1b;
+  --ink: #ecebe6; --ink-2: #c6c3ba; --mute: #98958d; --line: #35332e;
+  --accent: #93b2ff; --accent-soft: #1f2a45;
+  --t: #93b2ff; --t-soft: #1f2a45;
+  --n: #f0b552; --n-soft: #3a2c12;
+  --svc: #73d4a6; --svc-soft: #15342a;
+  --m: #c8a0ff; --m-soft: #2e2343;
+  --bad: #ff8f85; --bad-soft: #3d1c19;
+  --tok-bg: #2e2445; --tok-ink: #d9c6ff;
+  --cond-ink: #f0b552;
+  --shadow: none;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.wrap { max-width: 920px; margin: 0 auto; padding: 32px 16px 80px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+h1 { font-size: 32px; line-height: 1.2; margin: 0 0 8px; letter-spacing: -0.01em; }
+h2 { font-size: 24px; line-height: 1.25; margin: 56px 0 12px; padding-top: 8px; letter-spacing: -0.01em; scroll-margin-top: 16px; }
+h3 { font-size: 18px; line-height: 1.35; margin: 0; }
+h4 { font-size: 16px; margin: 28px 0 8px; }
+p { margin: 0 0 12px; }
+ul, ol { margin: 0 0 12px; padding-left: 22px; }
+li { margin: 4px 0; }
+code { font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--surface-2); border: 1px solid var(--line); border-radius: 5px; padding: 1px 5px; overflow-wrap: anywhere; }
+.lede { font-size: 18px; color: var(--ink-2); max-width: 70ch; }
+.meta { color: var(--mute); font-size: 14px; margin-bottom: 20px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; padding: 0; list-style: none; }
+.toc a { display: inline-block; padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); text-decoration: none; color: var(--ink); font-size: 14px; }
+.toc a:hover { border-color: var(--accent); }
+.section-intro { color: var(--ink-2); max-width: 72ch; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 20px 0; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
+.stat .n { font-size: 30px; font-weight: 700; line-height: 1.1; }
+.stat .l { font-size: 14px; color: var(--ink-2); margin-top: 4px; }
+.stat .s { font-size: 13px; color: var(--mute); margin-top: 2px; }
+.stat.t .n { color: var(--t); } .stat.n2 .n { color: var(--n); } .stat.m .n { color: var(--m); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; margin: 16px 0; box-shadow: var(--shadow); }
+.card > :last-child { margin-bottom: 0; }
+.callout { border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 8px; padding: 14px 16px; margin: 16px 0; }
+.callout.warn { border-color: var(--n); background: var(--n-soft); }
+.callout.bad { border-color: var(--bad); background: var(--bad-soft); }
+.callout.ok { border-color: var(--svc); background: var(--svc-soft); }
+.callout > :last-child { margin-bottom: 0; }
+.callout strong:first-child { display: block; margin-bottom: 4px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.two .card { margin: 0; }
+.top5 { counter-reset: t5; list-style: none; padding: 0; }
+.top5 li { counter-increment: t5; position: relative; padding: 10px 0 10px 44px; border-bottom: 1px solid var(--line); margin: 0; }
+.top5 li:last-child { border-bottom: 0; }
+.top5 li::before { content: counter(t5); position: absolute; left: 0; top: 10px; width: 30px; height: 30px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.tw { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); margin: 16px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { background: var(--surface-2); font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+table.inv { min-width: 860px; }
+table.caps { min-width: 620px; }
+table.sup { min-width: 700px; }
+table.cal { min-width: 560px; }
+td.k code { white-space: nowrap; }
+.tag { display: inline-block; font-size: 12px; font-weight: 600; line-height: 1; padding: 5px 8px; border-radius: 999px; white-space: nowrap; vertical-align: middle; }
+.tag.t { background: var(--t-soft); color: var(--t); }
+.tag.n { background: var(--n-soft); color: var(--n); }
+.tag.svc { background: var(--svc-soft); color: var(--svc); }
+.tag.m { background: var(--m-soft); color: var(--m); }
+.tag.bad { background: var(--bad-soft); color: var(--bad); }
+.tag.plain { background: var(--surface-2); color: var(--ink-2); border: 1px solid var(--line); }
+.yes { color: var(--svc); font-weight: 600; } .no { color: var(--bad); font-weight: 600; } .hold { color: var(--n); font-weight: 600; }
+.journey { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 16px 0; }
+.phase { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+.phase h4 { margin: 0 0 8px; font-size: 15px; }
+.phase .when { font-size: 13px; color: var(--mute); margin: -4px 0 8px; }
+.phase ul { list-style: none; padding: 0; margin: 0; }
+.phase li { font-size: 14px; line-height: 1.5; margin: 7px 0; padding-left: 50px; text-indent: -50px; }
+.phase li .tag { min-width: 42px; text-align: center; margin-right: 8px; text-indent: 0; }
+.phase li .tag + .tag, .phase li .tag ~ .tag { margin-left: 2px; }
+.email { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; margin: 20px 0; box-shadow: var(--shadow); overflow: hidden; scroll-margin-top: 16px; }
+.email > header { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+.email > header .id { font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace; background: var(--ink); color: var(--bg); padding: 6px 8px; border-radius: 6px; }
+.email > header h3 { flex: 1 1 220px; }
+.email .inner { padding: 14px 20px 20px; }
+dl.spec { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 6px 16px; margin: 0 0 16px; font-size: 15px; }
+dl.spec dt { color: var(--mute); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; padding-top: 2px; }
+dl.spec dd { margin: 0; }
+.mail { border: 1px solid var(--line); border-radius: 10px; background: var(--mail); margin-top: 12px; }
+.mail + .mail { margin-top: 14px; }
+.mail .vn { font-size: 12px; font-weight: 700; color: var(--mute); text-transform: uppercase; letter-spacing: .05em; padding: 10px 16px 0; }
+.mail .hd { padding: 10px 16px 10px; border-bottom: 1px dashed var(--line); font-size: 14px; }
+.mail .hd div { position: relative; padding-left: 80px; margin: 3px 0; }
+.mail .hd div > span:first-child { position: absolute; left: 0; top: 0; color: var(--mute); }
+.mail .hd b { font-weight: 600; }
+.mail .bd { padding: 14px 16px 16px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; line-height: 1.6; }
+.tk { background: var(--tok-bg); color: var(--tok-ink); border-radius: 4px; padding: 0 3px; font-size: .94em; white-space: nowrap; }
+.cond { color: var(--cond-ink); font-style: italic; font-size: .92em; }
+.note { font-size: 14px; color: var(--ink-2); margin-top: 10px; }
+.group-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.group-head h2 { margin-bottom: 4px; }
+.phases-build { counter-reset: ph; }
+.phases-build .card h3 { margin-bottom: 8px; }
+.phases-build ol { margin-bottom: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; font-size: 14px; color: var(--ink-2); margin: 12px 0; align-items: center; }
+footer.end { margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--mute); font-size: 13px; }
+@media (max-width: 760px) {
+  .wrap { padding-top: 24px; }
+  h1 { font-size: 26px; }
+  h2 { font-size: 21px; margin-top: 44px; }
+  .lede { font-size: 17px; }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .two, .journey { grid-template-columns: minmax(0, 1fr); }
+  dl.spec { grid-template-columns: 1fr; gap: 2px; }
+  dl.spec dd { margin-bottom: 10px; }
+  .email > header, .email .inner { padding-left: 14px; padding-right: 14px; }
+  .mail .bd, .mail .hd { padding-left: 12px; padding-right: 12px; }
+  .mail .hd div { padding-left: 68px; }
+  .card { padding: 16px; }
+  .tw.stacked { overflow: visible; }
+  table.stack { min-width: 0 !important; }
+  table.stack thead { display: none; }
+  table.stack tr { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  table.stack tr:last-child { border-bottom: 0; }
+  table.stack td { display: block; border: 0; padding: 3px 14px; }
+  table.stack td::before { content: attr(data-l); display: block; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--mute); }
+  table.stack td:first-child { font-weight: 600; }
+}
+@media print {
+  body { background: #fff; color: #000; }
+  .toc { display: none; }
+  .email, .card, .phase { box-shadow: none; break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>One-Click Launch: lifecycle email program</h1>
+  <p class="meta">Plan for oneclicklaunch.dev. Written 21 November 2026 from the code in <code>oneclick-launch/app/src</code>. Nothing here has been sent or changed in the app.</p>
+  <p class="lede">Every email in this plan comes from Farooq. It covers what the app sends today, what it should send, the exact words, and the rules that keep it legal, deliverable and not annoying.</p>
+  <ul class="toc" aria-label="Sections">
+    <li><a href="#summary">Summary</a></li>
+    <li><a href="#inventory">Current inventory</a></li>
+    <li><a href="#map">Program map</a></li>
+    <li><a href="#voice">Voice and format</a></li>
+    <li><a href="#transactional">A. Transactional</a></li>
+    <li><a href="#notifications">B. Notifications</a></li>
+    <li><a href="#lifecycle">C. Lifecycle and marketing</a></li>
+    <li><a href="#rules">Rules</a></li>
+    <li><a href="#build">Build order</a></li>
+  </ul>
+</header>
+
+<!-- ============================== SUMMARY ============================== -->
+<section id="summary">
+<h2>Summary</h2>
+<p class="section-intro">Today the app sends 15 kinds of customer email and 2 owner alert paths, all transactional, all plain text, all through one Cloudflare Email Sending binding. There is no marketing or lifecycle email, no unsubscribe, no consent record and no email capture on the free preview. The core is solid. The gaps are money mails (failed payments, cancels, manual refunds), the mails that would get customers more listings (badge block, company email), and everything after the final report.</p>
+
+<div class="stats">
+  <div class="stat"><div class="n">15</div><div class="l">Customer emails today</div><div class="s">plus 2 owner alert paths</div></div>
+  <div class="stat t"><div class="n">16</div><div class="l">A. Transactional</div><div class="s">10 rewrites, 6 new</div></div>
+  <div class="stat n2"><div class="n">7</div><div class="l">B. Notifications</div><div class="s">10 drafts, 2 exist today</div></div>
+  <div class="stat m"><div class="n">11</div><div class="l">C. Lifecycle and marketing</div><div class="s">19 drafts, all new</div></div>
+</div>
+
+<div class="two">
+  <div class="card">
+    <h3>The 5 that matter most</h3>
+    <ol class="top5">
+      <li><strong>T2 Launch started.</strong> The first mail after paying. It sets the promise, the exact 48-hour deadline and the automatic refund, and gets the first dashboard visit.</li>
+      <li><strong>T4 and T5, the 48-hour result.</strong> The guarantee moment. Met: proof. Missed: an honest refund that keeps trust. T4 can be lost today when the quota defers it.</li>
+      <li><strong>N2 and N3, badge block and company email.</strong> The only two things that add listings and need the customer. Badge listings count toward the 48-hour number once we see the badge.</li>
+      <li><strong>M5 Everything free month.</strong> Already paid for, not yet started. Starting it right after the report is the easiest Monthly subscriber we will ever get.</li>
+      <li><strong>M4 Monthly for Launch buyers.</strong> Launch stops at 300, so hundreds of catalog directories that fit are still untouched. Monthly works through them. Strongest new revenue line.</li>
+    </ol>
+    <p class="note">Most urgent gap outside the top 5: <strong>T13 Monthly payment failed</strong>. Today a failed renewal pauses Monthly silently.</p>
+  </div>
+  <div class="card">
+    <h3>What blocks marketing mail</h3>
+    <ol>
+      <li><strong>No postal address.</strong> <code>LEGAL_NAME</code> and <code>LEGAL_ADDRESS</code> are unset and the seller details in <code>site-config.js</code> are empty. CAN-SPAM needs a postal address in every commercial mail, and the privacy page cannot name the controller. Every group C marketing mail waits on this.</li>
+      <li><strong>No unsubscribe or suppression</strong> anywhere in the code: no link, no header, no table.</li>
+      <li><strong>No consent capture.</strong> Checkout offers no opt-out for product news, the preview takes no email, and the checkout email is optional.</li>
+      <li><strong>No room in the quota.</strong> About 200 a day for the whole Cloudflare account, shared with Closefast and with owner alerts, neither counted. Marketing needs its own provider and subdomain.</li>
+      <li><strong>Sender mismatch.</strong> From is the brand, not Farooq, on <code>mail.thereisnomoat.fyi</code>, with links to <code>oneclick-launch.pages.dev</code>.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="callout ok">
+  <strong>What can ship now, with no legal blocker</strong>
+  <p>All of group A and group B, plus the two service mails in group C (M3 founder check-in and M6 milestones), because none of them promote anything. That is the build order's first two phases. Marketing starts once the seller's name and address exist and the unsubscribe is built.</p>
+</div>
+</section>
+
+<!-- ============================== INVENTORY ============================== -->
+<section id="inventory">
+<h2>Current inventory</h2>
+<p class="section-intro">Every customer mail goes through <code>sendOnce</code> in <code>mail.ts</code>: one send per key, recorded in <code>mail_sent</code>, with the footer added there. Keys below are the <code>sendOnce</code> keys, with the <code>kind</code> in brackets. "Priority" kinds always go; "deferrable" kinds wait once the day's reserve is used.</p>
+
+<div class="tw">
+<table class="inv">
+<thead><tr><th>#</th><th>Key (kind)</th><th>Trigger</th><th>Subject today</th><th>What it says</th><th>To</th><th>Quota</th></tr></thead>
+<tbody>
+<tr><td>1</td><td class="k"><code>received:{order}</code><br>(started)</td><td>Paid base order with no live product 15 minutes after payment. <code>orders.ts</code> paidNotLive, 10-minute cron.</td><td>We've got your order: {product}</td><td>Payment came through, getting it ready. The 48 hours start when the first submissions go out. Dashboard link, reply for questions.</td><td>Customer</td><td>Priority</td></tr>
+<tr><td>2</td><td class="k"><code>started:{order}</code><br>(started)</td><td>Product goes live (markDelivering). Retried for 3 days by retryStarted.</td><td>Your launch has started: {product}</td><td>Plan, 7-day number, 48-hour number with the exact deadline, dashboard link, automatic full refund if short at 48 hours.</td><td>Customer</td><td>Priority</td></tr>
+<tr><td>3</td><td class="k"><code>result48:{order}</code><br>(result)</td><td>48-hour check (checkGuarantees), number met.</td><td>{got} accepted listings at 48 hours: {product}</td><td>Got against promised, "You're ahead of plan", what happens until day 7, dashboard link.</td><td>Customer</td><td><span class="no">Deferrable, never retried</span></td></tr>
+<tr><td>4</td><td class="k"><code>result48:{order}</code><br>(refund)</td><td>48-hour number missed and the automatic refund went through (autoRefund).</td><td>We've refunded your {plan} order: {product}</td><td>Count against promise, full refund to the card, listings stay, dashboard stays open, sorry.</td><td>Customer</td><td>Priority</td></tr>
+<tr><td>5</td><td class="k"><code>delivered:{order}</code><br>(delivered)</td><td>7-day deadline, or early once nothing is left (deliverOrders). Retried for 14 days.</td><td>Your One-Click Launch launch report is ready</td><td>Got against promised, counts by state, report link with CSV, what "accepted" means. Everything: a paragraph on the free month of Monthly.</td><td>Customer</td><td>Priority</td></tr>
+<tr><td>6</td><td class="k"><code>google_reminder1:{order}</code><br>(reminder)</td><td>High authority add-on bought, no customer Google connected, order delivering. 1 hour after the add-on was paid.</td><td>One step left for your high authority directories: {product}</td><td>These sites only take Sign in with Google, about 45 over 7 days, connect link, access removed at the end.</td><td>Customer</td><td>Deferrable, retried</td></tr>
+<tr><td>7</td><td class="k"><code>google_reminder24:{order}</code><br>(reminder)</td><td>Same, 24 hours after.</td><td>Your high authority directories are still waiting: {product}</td><td>Same text as #6.</td><td>Customer</td><td>Deferrable, retried</td></tr>
+<tr><td>8</td><td class="k"><code>google_signin:{order}:{date}</code><br>(reminder)</td><td>The customer's Google asks for a fresh sign-in (<code>gaccounts.ts</code> needsPerson).</td><td>One Google sign-in needed: {product}</td><td>High authority directories paused, open the window in the dashboard, the rest keeps running.</td><td>Customer</td><td>Deferrable, 1 a day with no end</td></tr>
+<tr><td>9</td><td class="k"><code>monthly_ack:{order}</code><br>(monthly)</td><td>Monthly active and its renewal date known, or 30 minutes in (monthlyMail cron).</td><td>You're on Monthly: {product}</td><td>Price, first charge (free month variant), what you get, cancel from the dashboard.</td><td>Customer</td><td>Deferrable, retried</td></tr>
+<tr><td>10</td><td class="k"><code>trial_end:{order}</code><br>(monthly)</td><td>Free month ends within 3 days and Monthly is not cancelled.</td><td>Your free month of Monthly ends on {day}</td><td>$29 is charged that day, do nothing to keep it, cancel link.</td><td>Customer</td><td>Deferrable, retried</td></tr>
+<tr><td>11</td><td class="k"><code>monthly:{order}:{n}</code><br>(monthly)</td><td>Renewal webhook (subscription.renewed) ends a period.</td><td>Your Monthly report</td><td>New accepted, from new directories, saved for later, seen live, new links, utm note, dashboard link.</td><td>Customer</td><td><span class="no">Deferrable, never retried</span></td></tr>
+<tr><td>12</td><td class="k"><code>digest:{user}:{day}</code><br>(digest)</td><td>Daily cron: yesterday's directory mail, customers on the digest setting (the default), orders paid, delivering or delivered.</td><td>{n} directory emails about your launch</td><td>A progress line per order, then mail grouped as approvals, rejections, needs your action and other, each with an inbox link.</td><td>Customer</td><td>Deferrable. Runs every day mail arrives, forever after delivery.</td></tr>
+<tr><td>13</td><td class="k"><code>forward:{order}:{cursor}</code><br>(forward)</td><td>Customers who chose "forward everything": hourly batches, 8 a day at most, 60 messages a batch.</td><td>{n} new directory emails about your launch</td><td>First 8 messages in full, the rest by subject, inbox link.</td><td>Customer</td><td>Deferrable, retried</td></tr>
+<tr><td>14</td><td class="k"><code>signin:{hash}</code><br>(signin)</td><td>Sign-in link asked for by a known customer, 5 an hour at most (<code>auth.ts</code>).</td><td>Your One-Click Launch sign-in link</td><td>The link, works once, expires in 15 minutes, ignore it if you didn't ask.</td><td>Customer</td><td>Priority</td></tr>
+<tr><td>15</td><td class="k"><code>owntest:{product}:{code}:{t}</code><br>(own_test)</td><td>Customer presses the test in the Company email tab. 1 a minute, 20 a day (<code>ownmail.ts</code>).</td><td>One-Click Launch forwarding check {code}</td><td>A check mail. When it comes back through the customer's forward, the company email is verified.</td><td>Customer's company address</td><td>Deferrable</td></tr>
+<tr><td>O1</td><td class="k"><code>page:{alert}:{at}</code><br>(owner_alert)</td><td>New high alert (<code>alerts.ts</code> scanAlerts and pageOwner). 6 an hour at most, each alert once in 6 hours.</td><td>[One-Click Launch] {alert title}</td><td>The alert, its detail, what to do, admin link.</td><td>Owner (SUPPORT_FORWARD)</td><td>Priority, not counted</td></tr>
+<tr><td>O2</td><td class="k"><code>page:refund:{order}:{tag}</code><br>(owner_alert)</td><td>Automatic refund done, failed, or paid in the other Dodo mode (pageNow).</td><td>[One-Click Launch] Refunded automatically: ...</td><td>Same format as O1.</td><td>Owner</td><td>Priority, not counted</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="two">
+  <div class="card">
+    <h3>How mail is sent today</h3>
+    <ul>
+      <li>Cloudflare Email Sending, <code>send_email</code> binding <code>EMAIL</code>, allowed sender <code>hello@mail.thereisnomoat.fyi</code>.</li>
+      <li>From name is always the brand ("One-Click Launch", from <code>BRAND_NAME</code>). The name part of <code>MAIL_FROM</code> is ignored.</li>
+      <li>Reply-to <code>support@thereisnomoat.fyi</code>, forwarded to Farooq's Gmail and filed in the admin inbox.</li>
+      <li><code>APP_ORIGIN</code> is unset, so every link points at <code>https://oneclick-launch.pages.dev</code>.</li>
+      <li>Footer: brand and support address. <code>LEGAL_NAME</code> and <code>LEGAL_ADDRESS</code> print only when set, and they are not set.</li>
+      <li>Plain text plus a minimal HTML copy (<code>textHtml</code>). No images, no open or click tracking.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Sending limits in <code>mail.ts</code></h3>
+    <ul>
+      <li>About <strong>200 a day for the whole Cloudflare account</strong>.</li>
+      <li><code>RESERVE_AFTER = 120</code> (lowered from 150 on 19 November because Closefast sends from the same account and is not counted). After 120 of our own sends in a UTC day, only priority kinds go.</li>
+      <li>Priority kinds: <code>signin</code>, <code>started</code>, <code>delivered</code>, <code>refund</code>, <code>owner_alert</code>.</li>
+      <li>The count skips owner alerts. They still use the same Cloudflare limit, up to 6 an hour.</li>
+      <li>A deferred mail claims nothing, so a later call can send it. A transient failure releases its key for the next tick.</li>
+    </ul>
+  </div>
+</div>
+
+<h4>Gaps found in the code</h4>
+<ol>
+  <li><strong>Two mails are lost when the reserve defers them.</strong> The 48-hour "met" result is sent once, after the order is marked checked, and the Monthly report is sent once from the renewal webhook. Nothing sends either one again. Every other deferrable kind is retried by its cron.</li>
+  <li><strong>The real headroom is smaller than 120.</strong> Closefast and owner alerts share the roughly 200 and are not counted. On a busy day Cloudflare can refuse even priority mail with <code>E_DAILY_LIMIT_EXCEEDED</code>, and the sign-in endpoint then answers "couldn't send the sign-in link".</li>
+  <li><strong>No mail at all for</strong>: a failed Monthly renewal (status on_hold), Monthly cancelled, Monthly ended, refunds made by an admin or in the Dodo dashboard (only the automatic 48-hour refund mails the customer), the add-on bought later from the dashboard, and a short Monthly month (the free next month is only an admin alert).</li>
+  <li><strong>Nothing asks for the badge block or the company email by mail</strong>, though both add listings and only the customer can do them.</li>
+  <li><strong>A directory that needs the customer waits for the next daily digest</strong>, up to a day and more.</li>
+  <li><strong>The daily digest never stops.</strong> It goes every day directories write, for delivered orders too.</li>
+  <li><strong>The Google sign-in mail repeats daily with no end</strong>, and the add-on has no reminder after 24 hours. Nothing decides what happens to the $39 if Google is never connected.</li>
+  <li><strong>Sender and links don't match the brand</strong>: From says "One-Click Launch", not Farooq, on the directory-inbox domain, with links on pages.dev.</li>
+  <li><strong>Subject typo</strong>: "Your One-Click Launch launch report is ready".</li>
+  <li><strong>No marketing foundation</strong>: no unsubscribe, consent record or suppression list. The preview takes no email. The checkout email is optional, so many pending orders have none.</li>
+  <li><strong>No first name, country or time zone</strong> is stored (Dodo has the name; Cloudflare gives country and time zone on every request). Mails can't greet by name or arrive at a local hour.</li>
+  <li><strong>Dashboard purchases carry no UTM</strong>: <code>attachCheckout</code> (Monthly and the add-on) stores no attribution, so no mail can be credited with a Monthly start.</li>
+</ol>
+</section>
+
+<!-- ============================== MAP ============================== -->
+<section id="map">
+<h2>Program map</h2>
+<p class="section-intro">Where each mail sits in a customer's life. IDs match the cards below. Times count from the moment the launch goes live (<code>launched_at</code>), except where noted.</p>
+<div class="legend">
+  <span><span class="tag t">T</span> Transactional</span>
+  <span><span class="tag n">N</span> Notification</span>
+  <span><span class="tag svc">S</span> Service lifecycle, no pitch</span>
+  <span><span class="tag m">M</span> Marketing</span>
+</div>
+<div class="journey">
+  <div class="phase">
+    <h4>Before buying</h4>
+    <p class="when">Preview and checkout</p>
+    <ul>
+      <li><span class="tag m">M1</span>Preview follow-up (needs a new email field)</li>
+      <li><span class="tag m">M2</span>Abandoned checkout, 2 hours and 48 hours</li>
+      <li><span class="tag t">M2</span>Payment failed at checkout (transactional variant)</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h4>Hours 0 to 48</h4>
+    <p class="when">The guarantee window</p>
+    <ul>
+      <li><span class="tag t">T1</span>Order received, only if not live in 15 minutes</li>
+      <li><span class="tag t">T2</span>Launch started, hour 0</li>
+      <li><span class="tag n">N4</span>Connect Google, hour 1 (add-on)</li>
+      <li><span class="tag n">N2</span>Badge block and company email, hour 2</li>
+      <li><span class="tag svc">M6</span>First listing live, when it happens</li>
+      <li><span class="tag t">T3</span>Day 1 update, hour 24</li>
+      <li><span class="tag n">N2b</span>Badge would close the gap, hour 36</li>
+      <li><span class="tag t">T4</span>48-hour result, or <span class="tag t">T5</span> refund</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h4>Days 3 to 7</h4>
+    <p class="when">Toward the full number</p>
+    <ul>
+      <li><span class="tag t">T3</span>Daily update, only when something changed</li>
+      <li><span class="tag svc">M3</span>Founder check-in, day 4</li>
+      <li><span class="tag n">N4c</span>Google, 3 days left, day 4</li>
+      <li><span class="tag n">N3b</span>Company email, 2 days left, day 5</li>
+      <li><span class="tag n">N1</span>A directory needs you, any day</li>
+      <li><span class="tag t">T6</span>Final report, day 7</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h4>After the report</h4>
+    <p class="when">Days 8 to 60</p>
+    <ul>
+      <li><span class="tag m">M5</span>Everything: start the free month, day 9 and 23</li>
+      <li><span class="tag m">M4</span>Launch: Monthly, day 9 and 23</li>
+      <li><span class="tag m">M7</span>Could I quote you, day 16</li>
+      <li><span class="tag m">M8</span>Referral, day 40</li>
+      <li><span class="tag n">N6</span>Went live this week, weekly to week 8</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h4>On Monthly</h4>
+    <p class="when">From the day it starts</p>
+    <ul>
+      <li><span class="tag t">T10</span>Monthly started</li>
+      <li><span class="tag t">T11</span>Free month ends in 3 days</li>
+      <li><span class="tag t">T12</span>Monthly report, each renewal</li>
+      <li><span class="tag n">N7</span>Listing edit done</li>
+      <li><span class="tag t">T13</span>Payment failed, <span class="tag t">T14</span> cancelled, <span class="tag t">T15</span> ended</li>
+      <li><span class="tag m">M9</span>Win-back, 30 and 90 days after it ended</li>
+    </ul>
+  </div>
+  <div class="phase">
+    <h4>Months later</h4>
+    <p class="when">No Monthly</p>
+    <ul>
+      <li><span class="tag m">M11</span>New directories this month, from day 45</li>
+      <li><span class="tag m">M10</span>Launching something new, after 90 quiet days</li>
+      <li><span class="tag m">M10b</span>Should I stop emailing you, 30 days later</li>
+    </ul>
+  </div>
+</div>
+
+<h4>What one customer actually receives</h4>
+<p class="section-intro">A Launch buyer, guarantee met, never starts Monthly. This is the volume check: about 8 mails in launch week, then roughly one a week, then one a month.</p>
+<div class="tw">
+<table class="cal">
+<thead><tr><th>When</th><th>Mail</th><th>Class</th></tr></thead>
+<tbody>
+<tr><td>Hour 0</td><td>T2 Launch started</td><td><span class="tag t">T</span></td></tr>
+<tr><td>Hour 2</td><td>N2 Two things that get you on more directories</td><td><span class="tag n">N</span></td></tr>
+<tr><td>Hour 5 or so</td><td>M6 First listing live (folded into the day 1 update if it lands late)</td><td><span class="tag svc">S</span></td></tr>
+<tr><td>Day 1</td><td>T3 Day 1 update</td><td><span class="tag t">T</span></td></tr>
+<tr><td>Day 2</td><td>T4 48-hour result</td><td><span class="tag t">T</span></td></tr>
+<tr><td>Day 3</td><td>T3 update, only if something needs them</td><td><span class="tag t">T</span></td></tr>
+<tr><td>Day 4</td><td>M3 Founder check-in (replaces that day's update)</td><td><span class="tag svc">S</span></td></tr>
+<tr><td>Day 5 and 6</td><td>T3 updates, only if something changed</td><td><span class="tag t">T</span></td></tr>
+<tr><td>Day 7</td><td>T6 Final report</td><td><span class="tag t">T</span></td></tr>
+<tr><td>Day 9</td><td>M4a Directories you aren't on yet</td><td><span class="tag m">M</span></td></tr>
+<tr><td>Days 14, 21, 28...</td><td>N6 Went live this week (stops when it goes quiet)</td><td><span class="tag n">N</span></td></tr>
+<tr><td>Day 16</td><td>M7 Could I quote you</td><td><span class="tag m">M</span></td></tr>
+<tr><td>Day 23</td><td>M4b What your listings did in 3 weeks</td><td><span class="tag m">M</span></td></tr>
+<tr><td>Day 40</td><td>M8 Referral</td><td><span class="tag m">M</span></td></tr>
+<tr><td>Day 45 on</td><td>M11 New directories, at most monthly</td><td><span class="tag m">M</span></td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============================== VOICE ============================== -->
+<section id="voice">
+<h2>Voice and format</h2>
+<div class="two">
+  <div class="card">
+    <h3>Voice</h3>
+    <ul>
+      <li>From <strong>"Farooq from One-Click Launch"</strong> (the brand part still comes from <code>BRAND_NAME</code>). Replies go to a mailbox Farooq reads.</li>
+      <li>Open with <code>Hi {first_name},</code> or just <code>Hi,</code> when there is no name. Never "Dear", never "Hey there".</li>
+      <li>Short sentences. One idea per paragraph. Plain words. Say the number first: the count, the promise, the deadline.</li>
+      <li>One link that matters per mail. Dashboard links open the exact tab (listings, inbox, badge, google, company, report).</li>
+      <li>No exclamation marks as a rule. No em dashes or en dashes; ranges read "5 to 10".</li>
+      <li>Sign off with "Farooq". No title, logo or signature block.</li>
+      <li>Honest about misses. Never invent urgency or deadlines that don't exist.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Format</h3>
+    <ul>
+      <li>Plain text first. The HTML copy is the same text with links, as <code>textHtml</code> does today. No images, no buttons.</li>
+      <li>Dates like <code>humanTime</code>: "Tuesday 24 November 2026 at 14:05 UTC". Money in USD: "$29".</li>
+      <li>Subjects under about 55 characters, product name in transactional subjects so they thread per product.</li>
+      <li>Preview text adds to the subject instead of repeating it. Put it first in the HTML as a hidden span.</li>
+      <li>Footer, added by <code>sendOnce</code>: brand, support address, legal name and postal address. Marketing adds one line: why they get it and a one-click stop link.</li>
+      <li>Tokens look like <span class="tk">{product}</span>. <span class="cond">[Conditions look like this]</span> and are not part of the text.</li>
+    </ul>
+  </div>
+</div>
+<div class="mail">
+  <div class="vn">Footer on every marketing mail</div>
+  <div class="bd">--
+One-Click Launch, {legal_name}, {postal_address}
+You're getting this because you bought {plan} for {product}. It's a product note, not a receipt. Stop these: {unsubscribe_link}</div>
+</div>
+<p class="note">The first-name token needs a small change: store the customer name Dodo returns with the payment (<code>fulfill</code> in <code>orders.ts</code>), first word only, and fall back to no name when it looks like a company or is empty.</p>
+</section>
+
+<!-- ============================== GROUP A ============================== -->
+<section id="transactional">
+<div class="group-head"><h2>A. Transactional</h2><span class="tag t">16 emails</span></div>
+<p class="section-intro">Mails that confirm, deliver or bill what the customer bought, or let them in. They go to every customer, cannot be switched off, carry no pitch, and stay on the Cloudflare Email Sending path. Money and access mails always go first.</p>
+
+<article class="email" id="t1">
+  <header><span class="id">T1</span><h3>Order received (only when the launch is slow to start)</h3><span class="tag plain">Exists: rewrite</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>Paid Launch or Everything order with no live product 15 minutes after payment (paidNotLive). Key <code>received:{order}</code>.</dd>
+      <dt>Timing</dt><dd>Once, 15 minutes after payment. In the normal case the launch goes live within minutes and T2 is the only mail.</dd>
+      <dt>Audience</dt><dd>The buyer.</dd>
+      <dt>Goal</dt><dd>Say the money landed and the clock has not started, before they wonder. Cuts "did it work?" mail and early chargebacks.</dd>
+      <dt>Don't send when</dt><dd>T2 already went. Refunded or disputed.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Got your order for {product}</b></div><div><span>Preview</span>Your 48 hours haven't started yet. They start with the first submissions.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your payment came through. Thanks for buying {plan}.
+
+We're getting {product} ready for its first directories. It's taking a little longer than usual, so I wanted you to know it's in hand.
+
+Your 48 hours don't start until the first submissions go out. I'll email you the moment they do, with the exact deadline.
+
+Your dashboard: {dashboard_link}
+Sign in with this email address.
+
+Any questions, just reply. It comes straight to me.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t2">
+  <header><span class="id">T2</span><h3>Launch started</h3><span class="tag plain">Exists: rewrite</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>The product goes live (markDelivering). Retried for 3 days if it did not go. Key <code>started:{order}</code>.</dd>
+      <dt>Timing</dt><dd>Hour 0, usually minutes after payment. This is the purchase confirmation in the normal case; Dodo sends the payment receipt.</dd>
+      <dt>Audience</dt><dd>Every Launch and Everything buyer.</dd>
+      <dt>Goal</dt><dd>Confirm, state the promise and the exact deadline, say the refund is automatic, get the first dashboard visit, invite a reply.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. It is the one mail every buyer must get.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>{product} is going out to directories now</b></div><div><span>Preview</span>{h48} accepted by {deadline_day}, or your money back automatically.</div></div>
+      <div class="bd">Hi {first_name},
+
+Thanks for buying {plan}. {product} is going out to directories right now.
+
+Here's the deal:
+- {d7} accepted listings in 7 days
+- at least {h48} of them by {deadline}
+- if we're short at 48 hours, you get a full refund. Automatically. You don't have to ask.
+
+You can watch every directory as it happens: {dashboard_link}
+Sign in with this email address.
+
+[If the high authority add-on is on] Your high authority directories need one thing from you: the Google account you want {product} listed under. Connect it here: {google_link}
+
+I'll send you a short update each day, and sooner if a directory needs you.
+
+Reply anytime. It's me on the other end.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t3">
+  <header><span class="id">T3</span><h3>Daily launch update</h3><span class="tag plain">New: replaces the digest in launch week</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>Every 24 hours from <code>launched_at</code> while the order is delivering. Uses the digest key (<code>digest:{user}:{day}</code>) so the two never both go.</dd>
+      <dt>Timing</dt><dd>Day 1 always. Day 2 is T4 and day 7 is T6, so no update those days. Days 3 to 6 only when something changed: new accepted listings, a reply that needs them, a milestone.</dd>
+      <dt>Audience</dt><dd>Launch and Everything orders in their 7 days, on the digest setting (the default). Customers on "forward everything" keep their hourly batches.</dd>
+      <dt>Goal</dt><dd>Visible progress, honest pace, and the things that need them, in one mail a day.</dd>
+      <dt>Don't send when</dt><dd>Another launch mail (T4, T6, M3) went that day: its content rolls into the next one. Nothing changed. The customer picked "only when you need me" and nothing needs them. Refunded.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">Day 1, before the 48-hour mark</div>
+      <div class="hd"><div><span>Subject</span><b>Day 1: {got} accepted for {product}</b></div><div><span>Preview</span>{pace_line}</div></div>
+      <div class="bd">Hi {first_name},
+
+Day 1 for {product}: {got} accepted so far.
+
+You need {h48} by {deadline}. [Ahead] You're ahead of pace. [On pace] You're on pace. [Behind] We're a little behind where I want to be. I'm watching it, and if we don't make it, the refund is automatic.
+
+[If anything needs them] Needs you ({n_action}):
+{directory}: {mail_subject}
+{inbox_link}
+
+[If any are live] Live on the directory already: {live_count}, like {live_examples}.
+
+[If 100 accepted was passed today] You just passed 100 accepted.
+
+Directory mail yesterday: {mail_count}. It's all in your inbox: {inbox_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">Days 3 to 6</div>
+      <div class="hd"><div><span>Subject</span><b>Day {n}: {got} of {d7} accepted for {product}</b></div><div><span>Preview</span>{new_today} more today. {n_action} things need you.</div></div>
+      <div class="bd">Hi {first_name},
+
+Day {n}: {got} of {d7} accepted. That's {new_today} more since yesterday.
+
+[If anything needs them] Needs you ({n_action}):
+{directory}: {mail_subject}
+{inbox_link}
+
+[If the full number is already reached] That's your full {d7} already. We keep going until {day7} and I'll send the final report then.
+
+Everything else is in your dashboard: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t4">
+  <header><span class="id">T4</span><h3>48-hour result: met</h3><span class="tag plain">Exists: rewrite, make priority</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>checkGuarantees at <code>due_48h</code> with the count at or above the 48-hour number. Key <code>result48:{order}</code>.</dd>
+      <dt>Timing</dt><dd>At the 48-hour mark.</dd>
+      <dt>Audience</dt><dd>Launch and Everything buyers who met the number.</dd>
+      <dt>Goal</dt><dd>Proof that the promise was kept, in numbers. The best moment of the whole launch.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. Fix first: move kind <code>result</code> into the priority kinds, or retry it like retryStarted, because today a deferred T4 is never sent.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>{got} accepted in 48 hours for {product}</b></div><div><span>Preview</span>You were promised {h48}. Here's what happens next.</div></div>
+      <div class="bd">Hi {first_name},
+
+48 hours are up. {product} has {got} accepted listings. You were promised {h48}.
+
+[If the 7-day number is already reached] That's already your full {d7}. We keep checking your listings until {day7}, and I'll send the final report then.
+[Otherwise] We keep going until {day7}, toward your {d7}. I'll send the final report then.
+
+[If anything needs them] Still waiting on you: {n_action} directory replies. {inbox_link}
+
+See every listing: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t5">
+  <header><span class="id">T5</span><h3>48-hour result: missed, refunded</h3><span class="tag plain">Exists: rewrite</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>autoRefund succeeds after a missed 48-hour number. Key <code>result48:{order}</code>, kind <code>refund</code>.</dd>
+      <dt>Timing</dt><dd>Right after the refund call goes through.</dd>
+      <dt>Audience</dt><dd>Buyers whose order missed.</dd>
+      <dt>Goal</dt><dd>Own the miss, confirm the money, ask what looked wrong. This mail replaces any separate "sorry" or feedback mail.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. After it, this customer gets no automated marketing, ever.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>I've refunded your {plan} order for {product}</b></div><div><span>Preview</span>{got} accepted at 48 hours, short of {h48}. Full refund, nothing to do.</div></div>
+      <div class="bd">Hi {first_name},
+
+{product} got {got} accepted listings in 48 hours. I promised {h48}, and we missed.
+
+So I've refunded the full {amount} to the card you paid with. You don't need to do anything. Banks usually take a few business days to show it.
+
+The listings we did get stay up, and your dashboard stays open: {dashboard_link}
+
+I'm sorry. If you have a minute, reply and tell me what looked off. I read every reply, and it helps me fix this for the next founder.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t6">
+  <header><span class="id">T6</span><h3>Launch delivered: final report</h3><span class="tag plain">Exists: rewrite, fix the subject</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>deliverOrders at the 7-day deadline, or early once nothing is left. Retried for 14 days. Key <code>delivered:{order}</code>.</dd>
+      <dt>Timing</dt><dd>Day 7, or earlier when the plan is done.</dd>
+      <dt>Audience</dt><dd>Every delivered Launch and Everything order. Two variants.</dd>
+      <dt>Goal</dt><dd>The deliverable itself: counts, the report link, what happens to listings still in review. For Everything, the free month they already own, placed last and stated as fact.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. No Monthly pitch for Launch buyers here: keeping the report clean keeps it transactional (see the primary purpose rule).</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">Launch</div>
+      <div class="hd"><div><span>Subject</span><b>Your final report for {product}: {got} accepted</b></div><div><span>Preview</span>{d7} promised, {got} accepted, {listed} live so far. CSV in the dashboard.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your launch for {product} is done.
+
+{got} accepted listings. You were promised {d7}.
+
+Live on the directory: {listed}
+Accepted, in review: {review}
+Waiting for your badge: {badge}
+Couldn't list: {failed}
+
+The full report, with every directory and link, is here. You can download it as a CSV: {report_link}
+
+"Accepted" means the directory took your listing. Each one publishes on its own schedule, so more will go live over the next few weeks. I'll send you a short note each week as they do.
+
+Thanks for trusting me with this.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">Everything: same mail, with this paragraph before the thanks</div>
+      <div class="bd">Your plan also includes a free month of Monthly. It adds up to 50 new accepted listings a month from new directories, tries rejected listings again after 30 days and keeps your listings alive. Card needed, $0 today, cancel anytime.
+
+The best time to start it is now, so all 30 days count after your launch: {monthly_link}</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t7">
+  <header><span class="id">T7</span><h3>Refund confirmation (every refund except the 48-hour one)</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd><code>refund.succeeded</code> webhook and markRefunded, for any order that did not get T5: an admin refund (override), a refund made in the Dodo dashboard, a refunded add-on, a refunded Monthly payment.</dd>
+      <dt>Timing</dt><dd>When Dodo confirms the refund.</dd>
+      <dt>Audience</dt><dd>The payer. Three variants.</dd>
+      <dt>Goal</dt><dd>No refund goes unexplained. Today only the automatic refund mails the customer.</dd>
+      <dt>Don't send when</dt><dd>T5 already covered this order. Partial refunds (the app ignores them) get a hand-written reply instead.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Your refund of {amount} is on its way</b></div><div><span>Preview</span>For {what} on {product}. Nothing to do on your side.</div></div>
+      <div class="bd">Hi {first_name},
+
+I've refunded {amount} for {what} to the card you paid with. Banks usually take a few business days to show it.
+
+[Launch or Everything] Your launch has stopped. Listings that were already accepted stay up, and your dashboard stays open: {dashboard_link}
+[High authority add-on] Your high authority directories are off, and we've taken our access off your Google account. The rest of your launch keeps going.
+[A Monthly payment] Monthly has stopped and you won't be charged again.
+
+If something went wrong, reply and tell me. I'd like to know.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t8">
+  <header><span class="id">T8</span><h3>Sign-in link</h3><span class="tag plain">Exists: light rewrite</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>A known customer asks for a link (<code>auth.ts</code> magicLink). Key <code>signin:{hash}</code>.</dd>
+      <dt>Timing</dt><dd>Instantly. 5 an hour at most, unchanged.</dd>
+      <dt>Audience</dt><dd>Customers only; unknown addresses get nothing, as today.</dd>
+      <dt>Goal</dt><dd>Get them in. Nothing else in this mail.</dd>
+      <dt>Don't send when</dt><dd>Never held back by any cap or suppression. Never wrap this link in a click tracker.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Your sign-in link for One-Click Launch</b></div><div><span>Preview</span>It works once and expires in 15 minutes.</div></div>
+      <div class="bd">Hi,
+
+Here's your link to sign in to your dashboard:
+
+{signin_link}
+
+It works once and expires in 15 minutes. If you didn't ask for it, you can ignore this email.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t9">
+  <header><span class="id">T9</span><h3>High authority add-on bought (later, from the dashboard)</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>activateAttachment for a <code>google_addon</code> order. When the add-on was bought at checkout with the plan, this folds into T2 and is not sent.</dd>
+      <dt>Timing</dt><dd>Right after payment.</dd>
+      <dt>Audience</dt><dd>Buyers of the $39 add-on during a running launch.</dd>
+      <dt>Goal</dt><dd>Confirm the purchase and get Google connected, the one step without which the add-on does nothing.</dd>
+      <dt>Don't send when</dt><dd>Google is already connected (say "they've started" instead, one line, in the next T3).</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>High authority directories added for {product}</b></div><div><span>Preview</span>One step left: connect the Google account you want listed.</div></div>
+      <div class="bd">Hi {first_name},
+
+You've added high authority directories to {product}'s launch. That's about {expected} more accepted listings over {days} days.
+
+These sites only take "Sign in with Google", so I need one thing from you: the Google account you want {product} listed under. Connect it here: {google_link}
+
+It's one sign-in, in a window on your dashboard. When your launch is done, we take our access off that account.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t10">
+  <header><span class="id">T10</span><h3>Monthly started</h3><span class="tag plain">Exists: rewrite</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>monthlyMail cron: Monthly active with its renewal date known, or 30 minutes in. Key <code>monthly_ack:{order}</code>.</dd>
+      <dt>Timing</dt><dd>Within 30 minutes of starting.</dd>
+      <dt>Audience</dt><dd>Two variants: the free month (Everything) and paid (Launch, or Everything after the free month was used).</dd>
+      <dt>Goal</dt><dd>State the price, the date of the next charge and how to cancel, clearly, which renewal rules expect. Then teach the one feature people forget: edit once, updated everywhere.</dd>
+      <dt>Don't send when</dt><dd>Never skipped.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">Free month (Everything)</div>
+      <div class="hd"><div><span>Subject</span><b>Your free month of Monthly has started</b></div><div><span>Preview</span>$0 today. First $29 on {trial_end}. Cancel anytime before.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your free month of Monthly is on for {product}.
+
+What it does:
+- up to 50 new accepted listings a month from new directories
+- at least 25, or your next month is free
+- rejected listings get another try after 30 days
+- listings that drop off a directory get resubmitted
+- change your listing once and we update it everywhere
+- a short report each month
+
+Today you pay $0. On {trial_end} we charge $29, then $29 every month. I'll remind you 3 days before.
+
+Cancel anytime from your dashboard before then and you won't be charged: {dashboard_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">Paid</div>
+      <div class="hd"><div><span>Subject</span><b>You're on Monthly for {product}</b></div><div><span>Preview</span>$29 a month. Next charge {next_charge}. Cancel anytime.</div></div>
+      <div class="bd">Hi {first_name},
+
+You're on Monthly for {product}. Thanks.
+
+[Launch buyers] Launch stopped at 300. Monthly picks up the {waiting} directories it didn't get to, plus new ones as we find them.
+
+What you get:
+- up to 50 new accepted listings a month
+- at least 25, or your next month is free
+- rejected listings get another try after 30 days
+- listings that drop off a directory get resubmitted
+- change your listing once and we update it everywhere
+- a short report each month
+
+Price: $29 a month. Next charge: {next_charge}.
+
+Cancel anytime from your dashboard. Monthly then runs to the end of the month you've paid for, and you're not charged again: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t11">
+  <header><span class="id">T11</span><h3>Free month ending</h3><span class="tag plain">Exists: rewrite, make priority</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>Free month ends within 3 days and Monthly is not cancelled. Key <code>trial_end:{order}</code>.</dd>
+      <dt>Timing</dt><dd>3 days before the first charge.</dd>
+      <dt>Audience</dt><dd>Everything customers in their free month.</dd>
+      <dt>Goal</dt><dd>No surprise charge. A surprise $29 becomes a chargeback, which costs far more than a cancel.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. Move it into the priority kinds: renewal notices are the mail regulators care about most.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Your free month of Monthly ends on {trial_end}</b></div><div><span>Preview</span>Then it's $29 a month. Here's what it got you so far.</div></div>
+      <div class="bd">Hi {first_name},
+
+Quick heads up. Your free month of Monthly for {product} ends on {trial_end}. That day we charge $29 to the card you added, then $29 every month.
+
+[If more than 0] So far this month: {new_accepted} new accepted listings.
+
+To keep it, do nothing. To stop it, cancel from your dashboard before {trial_end}: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t12">
+  <header><span class="id">T12</span><h3>Monthly renewed: the monthly report</h3><span class="tag plain">Exists: rewrite, add the short-month variant</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd><code>subscription.renewed</code> webhook, monthlyPeriodEnd. Key <code>monthly:{order}:{n}</code>.</dd>
+      <dt>Timing</dt><dd>Each renewal. Fix first: retry it from a cron like the others, because today a deferred report is never sent.</dd>
+      <dt>Audience</dt><dd>Every Monthly customer. Short-month variant when the month came in under 25.</dd>
+      <dt>Goal</dt><dd>Show what $29 bought, so the next charge feels earned. Keep the promise when it falls short.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. The short-month paragraph goes only after the next billing date has actually moved in Dodo (a manual admin step today).</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>{product} this month: {new_accepted} new listings</b></div><div><span>Preview</span>Your Monthly report, {from} to {to}.</div></div>
+      <div class="bd">Hi {first_name},
+
+Here's what Monthly did for {product} from {from} to {to}.
+
+New accepted listings: {new_accepted}
+From new directories: {from_new} (up to 50 a month)
+Saved for your next months: {buffer}
+Seen live on the directory: {went_live}
+New links to your site: {new_links}
+
+Every listing links to your site with utm_source set to the directory, so your analytics shows what each one sends.
+
+[Short month] This month came in at {new_accepted}. Monthly promises at least 25, so your next month is free: your next charge moves from {old_charge} to {new_charge}.
+
+We charged $29 for the month ahead. Dodo, our payment provider, emails the receipt.
+
+The full list: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t13">
+  <header><span class="id">T13</span><h3>Monthly payment failed</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd><code>subscription.on_hold</code> webhook (onHold sets the order on_hold and its work pauses).</dd>
+      <dt>Timing</dt><dd>Right away, then day 3 and day 7 if still on hold. Stops the moment a payment goes through.</dd>
+      <dt>Audience</dt><dd>Monthly customers whose renewal failed.</dd>
+      <dt>Goal</dt><dd>Recover the payment. Most failures are expired cards and bank checks, not decisions to leave.</dd>
+      <dt>Don't send when</dt><dd>They cancelled. Check what Dodo already sends on a failed renewal and time these to sit between its mails, not on top of them.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">Day 0</div>
+      <div class="hd"><div><span>Subject</span><b>Your Monthly payment didn't go through</b></div><div><span>Preview</span>Monthly for {product} is paused until the card works.</div></div>
+      <div class="bd">Hi {first_name},
+
+The $29 payment for Monthly on {product} didn't go through, so Monthly is paused for now. Nothing is lost, and your listings stay up.
+
+Usually it's an expired card or the bank being careful. You can update it here: {update_card_link}
+
+As soon as a payment goes through, Monthly picks up where it stopped.
+
+If you'd rather stop Monthly, you can cancel from your dashboard instead: {dashboard_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">Day 3 and day 7</div>
+      <div class="hd"><div><span>Subject</span><b>Monthly for {product} is still paused</b></div><div><span>Preview</span>One card update and it starts again.</div></div>
+      <div class="bd">Hi {first_name},
+
+Monthly for {product} is still paused because the last payment didn't go through. [Day 3] New directories and resubmits are waiting until it does. [Day 7] This is my last note about it.
+
+Update your card here: {update_card_link}
+
+If something's wrong on our side, reply and I'll sort it out.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t14">
+  <header><span class="id">T14</span><h3>Monthly cancelled</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>cancelMonthly from the dashboard, or a <code>subscription.cancelled</code> webhook.</dd>
+      <dt>Timing</dt><dd>Right away.</dd>
+      <dt>Audience</dt><dd>Anyone who cancels Monthly.</dd>
+      <dt>Goal</dt><dd>Confirm the cancel and the end date in writing, so there is no doubt about charges. Ask for one line on why.</dd>
+      <dt>Don't send when</dt><dd>Never skipped. No offer in it: a discount in a cancel confirmation reads as a trick.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Monthly is cancelled for {product}</b></div><div><span>Preview</span>It keeps running until {period_end}. No more charges.</div></div>
+      <div class="bd">Hi {first_name},
+
+Done. Monthly for {product} is cancelled.
+
+It keeps working until {period_end}, the end of the month you paid for. After that it stops, and you won't be charged again.
+
+Your listings stay up either way.
+
+If you have a second, reply and tell me why you stopped. One line is plenty.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t15">
+  <header><span class="id">T15</span><h3>Monthly ended</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>monthlyTick sets the order to ended once the paid period is over.</dd>
+      <dt>Timing</dt><dd>The day it ends.</dd>
+      <dt>Audience</dt><dd>Cancelled Monthly customers.</dd>
+      <dt>Goal</dt><dd>Close the loop: what it added, that the listings stay, what stops now, how to come back.</dd>
+      <dt>Don't send when</dt><dd>It ended because of a refund (T7 said it already).</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Monthly has ended for {product}</b></div><div><span>Preview</span>Your listings stay up. Here's what it added while it ran.</div></div>
+      <div class="bd">Hi {first_name},
+
+Monthly for {product} ended today.
+
+While it ran, it added {monthly_total} accepted listings. They stay up.
+
+What stops now: new directories, resubmits, keep-alive and edits.
+
+If you want it back, you can start it again anytime from your dashboard: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="t16">
+  <header><span class="id">T16</span><h3>Company email forwarding check</h3><span class="tag plain">Exists: keep</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>The customer presses the test in the Company email tab. Key <code>owntest:{product}:{code}:{t}</code>.</dd>
+      <dt>Timing</dt><dd>On demand, 1 a minute, 20 a day.</dd>
+      <dt>Audience</dt><dd>The customer's own company address. It is meant to come back to us through their forward.</dd>
+      <dt>Goal</dt><dd>Verify the forward. The code in the subject is what verifies it, so the subject format must not change.</dd>
+      <dt>Don't send when</dt><dd>Only the existing limits.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>One-Click Launch forwarding check {code}</b></div><div><span>Preview</span>Nothing to do. This checks your forward.</div></div>
+      <div class="bd">Hi,
+
+This is a check from One-Click Launch. If your forward works, this mail also reaches us and your company email is verified right away. Nothing to do here.
+
+Check code: {code}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+<p class="note">Owner alerts (O1, O2) stay as they are. They are not part of the customer program, but they share the sending limit, so they belong in the count (see Rules).</p>
+</section>
+
+<!-- ============================== GROUP B ============================== -->
+<section id="notifications">
+<div class="group-head"><h2>B. Notifications</h2><span class="tag n">7 notifications, 10 drafts</span></div>
+<p class="section-intro">Mails that exist because something needs the customer, or something they care about just happened. They are part of the service, so they need no marketing consent, but they are the mails most likely to feel like noise. Rule of thumb: one a day per order at most, bundled, and each one stops the moment the customer has done the thing.</p>
+
+<article class="email" id="n1">
+  <header><span class="id">N1</span><h3>A directory needs you</h3><span class="tag plain">New as its own mail</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>The inbox files a message as <code>needs_info</code> or <code>human</code> for a live order. Today these only appear in the next daily digest.</dd>
+      <dt>Timing</dt><dd>Wait 30 minutes after the first one so others can join, then send. At most 1 a day per order; later ones go in the next T3 or N6.</dd>
+      <dt>Audience</dt><dd>Customers on the digest setting. "Forward everything" customers already get the message itself.</dd>
+      <dt>Goal</dt><dd>A reply in hours, not days. Directories that ask a question and hear nothing usually drop the listing.</dd>
+      <dt>Don't send when</dt><dd>The customer already opened that message in the dashboard inbox. Forward mode. Refunded. The same directory was in an N1 in the last 3 days.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">One directory</div>
+      <div class="hd"><div><span>Subject</span><b>{directory} needs something from you</b></div><div><span>Preview</span>"{mail_subject}"</div></div>
+      <div class="bd">Hi {first_name},
+
+{directory} wrote back about {product} and needs an answer from you. This is one I can't answer for you.
+
+What they said: "{mail_subject}"
+
+Open it in your inbox. It shows what they asked and who to answer: {inbox_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">Several</div>
+      <div class="hd"><div><span>Subject</span><b>{n} directories need something from you</b></div><div><span>Preview</span>{directory} and {n_more} more wrote back about {product}.</div></div>
+      <div class="bd">Hi {first_name},
+
+These directories wrote back about {product} and need an answer from you:
+
+{directory}: {mail_subject}
+{directory}: {mail_subject}
+
+They're all in your inbox, with who to answer: {inbox_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="n2">
+  <header><span class="id">N2</span><h3>Badge block (with N3 when both apply)</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>N2a: the plan has badge directories (lane C) and no badge is found on the site (<code>badge_ok</code> is 0). N2b: 12 hours before the 48-hour mark, the count is short of the 48-hour number and the listings waiting only for the badge would close the gap.</dd>
+      <dt>Timing</dt><dd>N2a at hour 2, after T2. N2b once, at hour 36. Later reminders live in T3's "Needs you" list, not in new mails.</dd>
+      <dt>Audience</dt><dd>Running launches with badge directories in the plan.</dd>
+      <dt>Goal</dt><dd>More accepted listings. Badge listings count toward the 48-hour number once we see the badge live on the site.</dd>
+      <dt>Don't send when</dt><dd>The badge is found (stop at once). Refunded. N2b: the gap can't be closed by the badge alone, or the number is already met.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">N2a, both badge and company email apply</div>
+      <div class="hd"><div><span>Subject</span><b>Two things that get {product} on more directories</b></div><div><span>Preview</span>Both optional. Both are things only you can do.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your launch is running. Two optional things would get {product} onto more directories. Both need you, because they touch your own site and email.
+
+1. The badge block. {badge_count} directories list you for free if their badge is on your site. Paste one block of HTML into your footer: {badge_link}
+Once we see it on your site, those listings count toward your {h48}.
+
+2. A company email. G2, Capterra, Trustpilot and {own_sites} other business sites only accept an email on your own domain. Make a new address like listings@{domain}, forward it to us, and we add them to your launch: {company_link}
+
+Skip either one and the rest of your launch runs the same.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">N2a, badge only</div>
+      <div class="hd"><div><span>Subject</span><b>{badge_count} directories are waiting for your badge</b></div><div><span>Preview</span>One paste in your footer and they count toward your {h48}.</div></div>
+      <div class="bd">Hi {first_name},
+
+{badge_count} directories will list {product} for free if their badge is on your site. That's the deal they offer everyone.
+
+It's one block of HTML for your footer, all the badges in one place: {badge_link}
+
+Once we see it on your site, those listings count toward your {h48}. Rather not? No problem, the rest of your launch runs the same.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">N2b, the badge closes the gap</div>
+      <div class="hd"><div><span>Subject</span><b>Your badge would get {product} over {h48}</b></div><div><span>Preview</span>You're at {got}. {badge_pending} listings are only waiting for the badge.</div></div>
+      <div class="bd">Hi {first_name},
+
+You're at {got} accepted. You need {h48} by {deadline}.
+
+{badge_pending} more listings are done and only waiting for the badge on your site. Put the badge block in your footer and they count: {badge_link}
+
+We check your site on our own, so there's nothing else to do.
+
+And if we still miss, you get the full refund anyway. Your call.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="n3">
+  <header><span class="id">N3</span><h3>Company email setup</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>The plan includes company-email directories (<code>own_email = 1</code>: G2, Capterra, Trustpilot and the other business sites) and no company email is verified.</dd>
+      <dt>Timing</dt><dd>N3a at hour 2 (inside N2a when both apply, alone otherwise). N3b on day 5, once.</dd>
+      <dt>Audience</dt><dd>Running launches with those directories in the plan.</dd>
+      <dt>Goal</dt><dd>Unlock the business review sites, which no other setup can reach.</dd>
+      <dt>Don't send when</dt><dd>A company email is verified, or one is pending and its test mail went in the last day (they're mid-setup). Refunded. After delivery the launch is over, so no reminder then.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">N3a, company email only</div>
+      <div class="hd"><div><span>Subject</span><b>Get {product} on G2, Capterra and Trustpilot</b></div><div><span>Preview</span>They need an email on your own domain. One forwarded address does it.</div></div>
+      <div class="bd">Hi {first_name},
+
+G2, Capterra, Trustpilot and {own_sites} other business sites only accept a sign-up from an email on your own domain. So they're not in your launch yet.
+
+Make a new address like listings@{domain}, forward its mail to us, and we add them: {company_link}
+
+A brand new address works best. A plus version of yours forwards fine, but some of these sites turn it down.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">N3b, day 5</div>
+      <div class="hd"><div><span>Subject</span><b>2 days left to add G2, Capterra and Trustpilot</b></div><div><span>Preview</span>Your launch runs until {day7}. One forwarded address adds them.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your launch runs until {day7}, so there's still time to add the business review sites: G2, Capterra, Trustpilot and {own_sites} more.
+
+They only take an email on your own domain. Set up one forwarded address, like listings@{domain}, and we sign up with it: {company_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="n4">
+  <header><span class="id">N4</span><h3>Connect Google (add-on bought, not connected)</h3><span class="tag plain">Exists at 1 h and 24 h: rewrite, add day 4</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>googleReminders: the add-on is on, no customer Google account is ready, the order is delivering. Keys <code>google_reminder1</code>, <code>google_reminder24</code>, new <code>google_reminder96</code>.</dd>
+      <dt>Timing</dt><dd>1 hour, 24 hours and 4 days after the add-on was paid. Three in total, then stop.</dd>
+      <dt>Audience</dt><dd>Add-on buyers who haven't connected.</dd>
+      <dt>Goal</dt><dd>The $39 only works once Google is connected. Every hour without it is listings lost.</dd>
+      <dt>Don't send when</dt><dd>Connected (stop at once). Refunded. Owner decision needed: what happens to the $39 if Google is never connected by day 7. Recommended: refund the add-on automatically at delivery, with a T7.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">N4a, 1 hour</div>
+      <div class="hd"><div><span>Subject</span><b>One step left for your high authority directories</b></div><div><span>Preview</span>Connect the Google account you want {product} listed under.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your high authority directories are ready to go. They're waiting on one thing: the Google account you want {product} listed under.
+
+These sites only take "Sign in with Google", so we can't start without it. Connect it here: {google_link}
+
+When your launch is done, we take our access off that account.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">N4b, 24 hours</div>
+      <div class="hd"><div><span>Subject</span><b>Your high authority directories haven't started</b></div><div><span>Preview</span>About {expected} listings are waiting on your Google account.</div></div>
+      <div class="bd">Hi {first_name},
+
+Still waiting on your Google account for {product}. About {expected} accepted listings over {days} days start as soon as you connect it: {google_link}
+
+If something in the connect step didn't work, reply and tell me what you saw. I'll help.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">N4c, day 4</div>
+      <div class="hd"><div><span>Subject</span><b>3 days left for your high authority directories</b></div><div><span>Preview</span>Connect Google today and we'll get as many done as we can.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your launch ends on {day7}, and your high authority directories still haven't started, because no Google account is connected.
+
+Connect it today and we'll get as many done as we can before then: {google_link}
+
+If you'd rather not connect a Google account at all, reply and tell me.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="n5">
+  <header><span class="id">N5</span><h3>Google sign-in needed</h3><span class="tag plain">Exists: rewrite, cap it</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>needsPerson in <code>gaccounts.ts</code> for a customer-owned Google account. Key <code>google_signin:{order}:{date}</code>.</dd>
+      <dt>Timing</dt><dd>Once a day as today, but at most 3 per sign-in event (days 0, 1 and 3). After that the owner alert carries it.</dd>
+      <dt>Audience</dt><dd>Add-on customers whose Google asked for a fresh sign-in.</dd>
+      <dt>Goal</dt><dd>One sign-in, so the high authority lane picks up again.</dd>
+      <dt>Don't send when</dt><dd>Signed in again (stop at once). The launch is delivered (the access is released anyway). Refunded.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Google wants you to sign in once more</b></div><div><span>Preview</span>Your high authority directories are paused until you do.</div></div>
+      <div class="bd">Hi {first_name},
+
+Google asked for a fresh sign-in on the account you connected for {product}. That pauses your high authority directories. The rest of your launch keeps running.
+
+Open your dashboard, press "Open the window" and sign in to Google once: {google_link}
+
+That's it. They pick up again right after.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="n6">
+  <header><span class="id">N6</span><h3>Listings gone live (weekly, after delivery)</h3><span class="tag plain">New: replaces the daily digest after delivery</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>Weekly, on the weekday of delivery: listings first seen live in the last 7 days (<code>live_checks.found_at</code>), plus that week's directory mail. During launch week this content is inside T3.</dd>
+      <dt>Timing</dt><dd>Weeks 1 to 8 after the report. Stops early after 2 weeks in a row with fewer than 3 new live listings.</dd>
+      <dt>Audience</dt><dd>Delivered Launch and Everything orders, Monthly customers included.</dd>
+      <dt>Goal</dt><dd>Show the value still arriving after the report, at a pace that doesn't eat the daily quota the way the forever-daily digest does.</dd>
+      <dt>Don't send when</dt><dd>Nothing new went live and no mail needs them. The customer switched it off in preferences. Refunded.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>{n} more listings went live for {product}</b></div><div><span>Preview</span>This week: {live_examples}.</div></div>
+      <div class="bd">Hi {first_name},
+
+{n} more of {product}'s listings went live this week:
+
+{directory}: {listing_url}
+{directory}: {listing_url}
+[Up to 10, then] and {n_more} more in your dashboard.
+
+That's {total_live} live in total. [If it passed 100 live this week] That's over 100 live now.
+
+[If anything needs them] One directory needs you: {directory}, "{mail_subject}". {inbox_link}
+
+All directory mail is in your inbox: {inbox_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="n7">
+  <header><span class="id">N7</span><h3>Listing edit done (Monthly)</h3><span class="tag plain">New</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Trigger</dt><dd>An edit job reaches done (<code>monthly.ts</code> closeJobs).</dd>
+      <dt>Timing</dt><dd>When the last listing of the edit finishes.</dd>
+      <dt>Audience</dt><dd>Monthly customers who asked for an edit.</dd>
+      <dt>Goal</dt><dd>Close the loop on "edit once, updated everywhere", the feature that makes Monthly feel worth it.</dd>
+      <dt>Don't send when</dt><dd>An admin cancelled the job. The job only had skipped items.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Your listing edit is done on {updated} directories</b></div><div><span>Preview</span>{requested} more got a change request. Details per directory inside.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your edit to {product} ({fields}) has gone out.
+
+Updated: {updated}
+Change requested through the site's own form: {requested}
+That site has no way to edit: {no_edit}
+Didn't work: {failed}
+
+The details for each directory are in your dashboard: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+</section>
+
+<!-- ============================== GROUP C ============================== -->
+<section id="lifecycle">
+<div class="group-head"><h2>C. Lifecycle and marketing</h2><span class="tag m">11 programs, 19 drafts</span></div>
+<p class="section-intro">Two kinds live here. <span class="tag svc">Service</span> mails (M3, M6) talk only about the service they bought and carry no pitch, so they can ship now. <span class="tag m">Marketing</span> mails promote something, so each needs a consent basis, the unsubscribe line and the postal address, and none can go until the seller's details exist. Every program below says why it exists and when not to send it.</p>
+
+<div class="callout warn">
+  <strong>Never send group C to</strong>
+  <p>Refunded customers or anyone whose guarantee was missed. Anyone with an open support thread (hold until it closes). Anyone with an open dispute. Unsubscribed or bounced addresses, and anyone who complained. Test-mode orders and our own addresses. And never more than the caps allow that week (see Rules). Marketing also never goes while a launch is running.</p>
+</div>
+
+<article class="email" id="m1">
+  <header><span class="id">M1</span><h3>Preview follow-up</h3><span class="tag m">Marketing</span><span class="tag plain">Needs a new email field</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>The free preview is the strongest intent signal before purchase: someone pasted their own URL. Today it takes no email, so this audience doesn't exist. Add "Email me this preview" under the result, with an unticked box: "and send me 2 short follow-ups". The preview mail itself is requested; the follow-ups need the box.</dd>
+      <dt>Trigger</dt><dd>M1a: the visitor asks for the preview by email. M1b and M1c: only if the box was ticked.</dd>
+      <dt>Timing</dt><dd>M1a at once, M1b day 2, M1c day 6. Then stop for good.</dd>
+      <dt>Goal</dt><dd>Turn a preview into a purchase, and learn why people don't buy.</dd>
+      <dt>Don't send when</dt><dd>They bought (any order with this email or URL). Box not ticked (M1b, M1c). They ran a new preview in the last 30 days (don't restart the series). EU or UK visitor without the box ticked.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">M1a, at once</div>
+      <div class="hd"><div><span>Subject</span><b>Your directory preview for {product}</b></div><div><span>Preview</span>Listing drafts from your site and {dir_count} directories that fit.</div></div>
+      <div class="bd">Hi,
+
+Here's the preview you asked for.
+
+{product} fits {dir_count} directories in our catalog.
+
+Two of the listing drafts we wrote from your site:
+
+"{tagline_1}"
+{description_1}
+
+"{tagline_2}"
+{description_2}
+
+The rest are here: {preview_link}
+
+When you're ready: $99 for 300 accepted listings, or $149 for 450. At least 250 (or 350) in 48 hours, or a full refund, automatically.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M1b, day 2</div>
+      <div class="hd"><div><span>Subject</span><b>A question about {product}</b></div><div><span>Preview</span>What held you back? One line is enough.</div></div>
+      <div class="bd">Hi,
+
+You ran a preview for {product} a couple of days ago. I'm curious what you thought.
+
+If something stopped you, I'd like to know. The price? Not sure it works? Just not the right time? Reply with one line. I read every one.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M1c, day 6</div>
+      <div class="hd"><div><span>Subject</span><b>What you'd actually get</b></div><div><span>Preview</span>A real launch report, every directory and link.</div></div>
+      <div class="bd">Hi,
+
+Last note from me about this.
+
+If you're wondering what you'd get, here's a real launch report, with every directory and link: {sample_report_link}
+
+The deal stays simple. Paste {product}'s URL and we do the rest. If we don't hit 250 accepted in 48 hours, you get your money back without asking: {checkout_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m2">
+  <header><span class="id">M2</span><h3>Abandoned checkout</h3><span class="tag m">Marketing</span><span class="tag t">Failed payment variant: transactional</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>A pending order with an email is the highest intent we will ever see. The checkout email is optional on the landing, so only some pending orders have one, which makes each one worth a careful mail.</dd>
+      <dt>Trigger</dt><dd>Pending base order with an email, 2 hours old, not paid (checked against Dodo by reconcilePending first). Failed variant: Dodo reports the payment failed.</dd>
+      <dt>Timing</dt><dd>M2a at 2 hours. M2b at 48 hours, only if M2a got no click and the consent basis allows a second mail.</dd>
+      <dt>Goal</dt><dd>Recover the sale with reassurance, not a discount. A discount here teaches people to abandon.</dd>
+      <dt>Don't send when</dt><dd>They paid since, under any email, for the same URL. Test mode, or our own addresses. The same connection opened 3 or more checkouts that day (testing or abuse). EU visitors: M2a only. Needs a resume link that makes a fresh checkout with the URL and plan filled in.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">M2a, 2 hours</div>
+      <div class="hd"><div><span>Subject</span><b>Your launch for {product} is still waiting</b></div><div><span>Preview</span>You got as far as checkout. Anything I can help with?</div></div>
+      <div class="bd">Hi,
+
+You got to checkout for {product} but didn't finish. No problem, nothing was charged.
+
+If you want to pick it up, this link takes you back with everything filled in: {resume_link}
+
+If something put you off, reply and tell me. Price, trust, timing, a question about your product. I answer every email myself.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M2a, payment failed at Dodo</div>
+      <div class="hd"><div><span>Subject</span><b>Your payment for {product} didn't go through</b></div><div><span>Preview</span>Nothing was charged. Here's a fresh link.</div></div>
+      <div class="bd">Hi,
+
+Your payment for {plan} didn't go through, so nothing was charged and nothing has started.
+
+It's often the bank being careful with a new merchant. You can try again here, with another card if you like: {resume_link}
+
+Stuck? Reply and I'll send you a payment link by hand.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M2b, 48 hours</div>
+      <div class="hd"><div><span>Subject</span><b>The question people ask before buying</b></div><div><span>Preview</span>"Will directories actually take my product?"</div></div>
+      <div class="bd">Hi,
+
+The question I get most before people buy: "Will directories actually take my product?"
+
+Fair question. That's why the guarantee works the way it does. If {product} doesn't get {h48} accepted in 48 hours, you get a full refund. Automatically, no form, no asking.
+
+Here's a real report so you can see what you'd get: {sample_report_link}
+
+Pick up where you left off: {resume_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m3">
+  <header><span class="id">M3</span><h3>Founder check-in during the launch</h3><span class="tag svc">Service</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Catches problems while they can still be fixed, makes the product feel run by a person, and gets replies. Replies help inbox placement and are where testimonials start: a happy reply gets a hand-written "can I quote you?".</dd>
+      <dt>Trigger</dt><dd>Day 4 after <code>launched_at</code>, guarantee met.</dd>
+      <dt>Timing</dt><dd>Day 4, in the customer's morning when the time zone is known. It replaces that day's T3.</dd>
+      <dt>Goal</dt><dd>One honest reply.</dd>
+      <dt>Don't send when</dt><dd>Guarantee missed or refunded. Open support thread (we're already talking). They replied to any mail in the last 3 days. Something has waited on them for 2 days or more (they're already being asked for things).</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>How's it looking, {first_name}?</b></div><div><span>Preview</span>Quick one from me. No pitch.</div></div>
+      <div class="bd">Hi {first_name},
+
+Farooq here, the founder. You're 4 days into {product}'s launch, so I wanted to check in myself.
+
+How's it looking from your side? Anything in the dashboard that's confusing, or a listing that reads wrong?
+
+Just hit reply. It comes to me, and I answer.
+
+Farooq</div>
+    </div>
+    <p class="note">Without a first name the subject reads "How's {product}'s launch looking?".</p>
+  </div>
+</article>
+
+<article class="email" id="m4">
+  <header><span class="id">M4</span><h3>Monthly for Launch buyers</h3><span class="tag m">Marketing</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Launch stops queueing at 300 accepted, so most of the catalog that fits their product is never tried. Monthly works through exactly those directories, up to 50 accepted a month, at least 25 or the next month is free. For Launch buyers the fuel already exists, which makes this the strongest offer we have. Needs one new number: <span class="tk">{waiting}</span>, the payable directories in their plan that were never queued because of the cap, plus new ones since.</dd>
+      <dt>Trigger</dt><dd>Launch order delivered with the 7-day number reached, no Monthly.</dd>
+      <dt>Timing</dt><dd>M4a on day 9 (2 days after the report). M4b on day 23. Then no more Monthly offers except M11.</dd>
+      <dt>Goal</dt><dd>Monthly starts, measured against a 10% holdout.</dd>
+      <dt>Don't send when</dt><dd>Monthly is on or its checkout is open. Delivered short of 300 (pitching more after a shortfall is tone-deaf). <span class="tk">{waiting}</span> under 25 (the offer is weak; wait for M11). Refunded, missed guarantee, open support thread, unsubscribed.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">M4a, day 9</div>
+      <div class="hd"><div><span>Subject</span><b>{waiting} directories {product} isn't on yet</b></div><div><span>Preview</span>Launch stopped at 300. Monthly picks up the rest, 50 a month.</div></div>
+      <div class="bd">Hi {first_name},
+
+Your launch got {got} accepted listings for {product}. Launch stops at 300, so we stopped there.
+
+But {waiting} more directories in our catalog would take {product}. They're just sitting there.
+
+Monthly works through them for you:
+- up to 50 new accepted listings a month
+- at least 25, or the next month is free
+- rejected listings get another try after 30 days
+- change your listing once and we update it everywhere
+
+It's $29 a month, and you can cancel anytime from the dashboard: {monthly_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M4b, day 23</div>
+      <div class="hd"><div><span>Subject</span><b>What your listings did in 3 weeks</b></div><div><span>Preview</span>{listed} live now. And the {waiting} still waiting.</div></div>
+      <div class="bd">Hi {first_name},
+
+It's been three weeks since {product}'s launch. {listed} of its listings are live now, up from {listed_at_report} on report day.
+
+Every listing links to your site with a utm_source tag, so your analytics shows which directories send visits. Worth a look.
+
+The {waiting} directories from my last note are still open. Monthly would get through them at up to 50 a month: {monthly_link}
+
+That's my last note about Monthly.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m5">
+  <header><span class="id">M5</span><h3>Everything buyers: start the free month</h3><span class="tag m">Marketing</span><span class="tag plain">Benefit they already own</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Everything includes a free month of Monthly, but it only starts when they add a card. An unclaimed benefit is a lost subscriber. It is part of what they bought, but it leads to a $29 a month charge, so it is treated as marketing: unsubscribe line and all. The best start is right after the report, so the full 30 days count after the launch. The free month has no expiry in the code today; the copy says so.</dd>
+      <dt>Trigger</dt><dd>Everything order delivered, never had Monthly. M5c: a Monthly checkout for that order is pending (the card step didn't finish).</dd>
+      <dt>Timing</dt><dd>The report (T6) carries the first mention. M5a day 9, M5b day 23. M5c 2 hours after the unfinished checkout.</dd>
+      <dt>Goal</dt><dd>Free months started, and kept past the first charge.</dd>
+      <dt>Don't send when</dt><dd>Monthly is on. Refunded, missed guarantee, open support thread, unsubscribed.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">M5a, day 9</div>
+      <div class="hd"><div><span>Subject</span><b>Your free month of Monthly is still waiting</b></div><div><span>Preview</span>It's part of Everything. $0 today, cancel anytime.</div></div>
+      <div class="bd">Hi {first_name},
+
+Quick reminder: your Everything plan comes with a free month of Monthly, and it hasn't started yet.
+
+[If 10 or more] Since your launch, we've added {new_dirs} new directories, and {product} isn't on them. [Fewer than 10] New directories join every week, and {product} isn't on them yet.
+
+Monthly gets it on up to 50 a month, at least 25 or your next month is free. It also tries rejected listings again after 30 days.
+
+Start it here. You add a card, pay $0 today, and I remind you 3 days before the first $29: {monthly_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M5b, day 23</div>
+      <div class="hd"><div><span>Subject</span><b>Still yours: a free month of Monthly</b></div><div><span>Preview</span>No deadline. This is my last reminder.</div></div>
+      <div class="bd">Hi {first_name},
+
+Last reminder from me on this. Your free month of Monthly for {product} is still there whenever you want it.
+
+It doesn't expire. I just don't want you to miss it: {monthly_link}
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M5c, card step didn't finish</div>
+      <div class="hd"><div><span>Subject</span><b>Your free month hasn't started yet</b></div><div><span>Preview</span>The card step didn't finish. Here's the link again.</div></div>
+      <div class="bd">Hi {first_name},
+
+You went to start your free month of Monthly for {product}, but the card step didn't finish, so it hasn't started.
+
+Here's the link again. $0 today: {monthly_link}
+
+If your card got declined, reply and I'll help.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m6">
+  <header><span class="id">M6</span><h3>Milestones</h3><span class="tag svc">Service</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>The first live listing is the moment the product becomes real for them. Bigger milestones (100 accepted, 100 live) matter too, but they ride inside mails that already go, so they add no volume.</dd>
+      <dt>Trigger</dt><dd>M6a: the product's first <code>live_checks.found_at</code>. 100 accepted: a headline line in T3. 100 live: a headline line in N6.</dd>
+      <dt>Timing</dt><dd>M6a when it happens, as its own mail only if nothing else went in the last 6 hours; otherwise it leads the next T3.</dd>
+      <dt>Goal</dt><dd>A small moment of delight, and a second dashboard visit.</dd>
+      <dt>Don't send when</dt><dd>Refunded. The customer picked "only when you need me". It would be the third mail that day.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">M6a, first listing live</div>
+      <div class="hd"><div><span>Subject</span><b>{product} is live on {directory}</b></div><div><span>Preview</span>Your first listing is up. Here's the link.</div></div>
+      <div class="bd">Hi {first_name},
+
+First one's up. {product} is live on {directory}:
+{listing_url}
+
+Lots more on the way. You'll see each one in your dashboard: {dashboard_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m7">
+  <header><span class="id">M7</span><h3>Testimonial and review ask</h3><span class="tag m">Marketing</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Proof is the biggest gap for a new product. Real words from founders sell better than any copy. It is a relationship mail, but it waits for the address and unsubscribe like marketing, to be safe.</dd>
+      <dt>Trigger</dt><dd>Guarantee met, report delivered with the 7-day number reached, no testimonial yet (from an M3 reply).</dd>
+      <dt>Timing</dt><dd>Day 16, a week after the first Monthly offer.</dd>
+      <dt>Goal</dt><dd>One honest quote with permission to use it, name and product. Then a public review ask, sent the same way to everyone who got their report.</dd>
+      <dt>Don't send when</dt><dd>Missed guarantee, refunded, delivered short, an unhappy reply to M3, open support thread. Rules for public reviews: ask everyone the same way, not only the happy repliers (selective asking breaks most review sites' rules), and never offer anything for a review. Testimonials on our site must be real, typical, and used only with the permission in the reply.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Could I quote you?</b></div><div><span>Preview</span>One or two sentences about how {product}'s launch went.</div></div>
+      <div class="bd">Hi {first_name},
+
+{product} got {got} accepted listings with us. I hope it was worth it.
+
+Would you write me one or two sentences about how it went? Good or bad, honest is what helps. Just reply.
+
+If you're happy for me to put it on the site with your name and {product}, say so and I will. If not, I'll keep it to myself.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m8">
+  <header><span class="id">M8</span><h3>Referral</h3><span class="tag m">Marketing</span><span class="tag plain">Needs a reward decision</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Founders know founders, and launches spread in the same communities. The cheapest customer we will get. Needs an owner decision on the reward and a referral code. Recommended: the friend gets $20 off, the referrer gets a month of Monthly free ($29 of value), which also brings them into Monthly.</dd>
+      <dt>Trigger</dt><dd>Guarantee met and delivered, about 40 days after the report (the first slot the caps allow after M4b).</dd>
+      <dt>Timing</dt><dd>Once. Then a one-line mention in the Monthly report footer for Monthly customers, at most every third report.</dd>
+      <dt>Goal</dt><dd>Referred purchases.</dd>
+      <dt>Don't send when</dt><dd>Missed guarantee, refunded, delivered short, an unhappy reply, open support thread, unsubscribed.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>Know a founder about to launch?</b></div><div><span>Preview</span>They get $20 off. You get a free month of Monthly.</div></div>
+      <div class="bd">Hi {first_name},
+
+If you know someone about to launch a product, send them this link: {referral_link}
+
+They get $20 off. When they buy, you get a month of Monthly free for {product}.
+
+That's it. No forms, nothing to set up.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m9">
+  <header><span class="id">M9</span><h3>Win-back for a cancelled Monthly</h3><span class="tag m">Marketing</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Most people cancel a subscription over timing, not value. New directories keep arriving, which is a real reason to come back that needs no discount.</dd>
+      <dt>Trigger</dt><dd>30 days after Monthly ended, if 25 or more new payable directories joined since. Again at 90 days if 50 or more.</dd>
+      <dt>Timing</dt><dd>Twice at most, ever.</dd>
+      <dt>Goal</dt><dd>Monthly restarts. Add a one-question cancel reason in the dashboard, so the mail can be skipped for people it can't help.</dd>
+      <dt>Don't send when</dt><dd>Their last month came in short (under 25) and the 30-day mail would land on a sore point: wait for the 90-day one. Cancel reason says the product shut down or "too many emails". Refunded, complained, unsubscribed, open support thread.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>{new_dirs} new directories since your Monthly ended</b></div><div><span>Preview</span>{product} isn't on any of them yet.</div></div>
+      <div class="bd">Hi {first_name},
+
+Since Monthly ended for {product}, we've added {new_dirs} new directories. {product} isn't on them yet.
+
+If you want them, Monthly is $29 a month: up to 50 new accepted listings a month, at least 25 or the next month is free. Start it from your dashboard: {monthly_link}
+
+And if it wasn't working for you, I'd still like to know why. One line is plenty.
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m10">
+  <header><span class="id">M10</span><h3>Re-engagement and sunset for dormant customers</h3><span class="tag m">Marketing</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>Two reasons. Founders launch more than one product, so a past customer is the best buyer for the next launch. And mailing people who never engage hurts inbox placement for everyone, so the list has to be cleaned on purpose.</dd>
+      <dt>Trigger</dt><dd>Dormant: report delivered over 90 days ago, no Monthly, and no sign-in, click or reply in 90 days.</dd>
+      <dt>Timing</dt><dd>M10a once. M10b 30 days later if still nothing. After M10b with no click, all marketing stops for that address; transactional and notifications continue.</dd>
+      <dt>Goal</dt><dd>A second product launched, or a clean list.</dd>
+      <dt>Don't send when</dt><dd>Monthly is on. Any engagement in the window. Refunded, missed guarantee. Already sunset.</dd>
+    </dl>
+    <div class="mail">
+      <div class="vn">M10a, after 90 quiet days</div>
+      <div class="hd"><div><span>Subject</span><b>Launching something new?</b></div><div><span>Preview</span>Paste the URL. Same deal as {product}.</div></div>
+      <div class="bd">Hi {first_name},
+
+It's been a while since {product}'s launch. I hope it's going well.
+
+If you're working on something new, the same thing works for it. Paste the URL and we write the listings and submit them, with at least 250 accepted in 48 hours or your money back: {landing_link}
+
+And if you'd rather I stop emailing, that's fine. One click at the bottom.
+
+Farooq</div>
+    </div>
+    <div class="mail">
+      <div class="vn">M10b, 30 days later</div>
+      <div class="hd"><div><span>Subject</span><b>Should I stop emailing you?</b></div><div><span>Preview</span>No hard feelings. Your listings and dashboard stay either way.</div></div>
+      <div class="bd">Hi {first_name},
+
+I haven't heard from you in a while, so after this one I'll stop sending you news.
+
+Your listings stay up and your dashboard stays open. If something needs you, like a directory reply, I'll still let you know.
+
+Want the occasional note? Click here and I'll keep you on: {stay_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+
+<article class="email" id="m11">
+  <header><span class="id">M11</span><h3>New-directories digest (no Monthly)</h3><span class="tag m">Marketing</span></header>
+  <div class="inner">
+    <dl class="spec">
+      <dt>Why it exists</dt><dd>The catalog grows every week. Customers without Monthly miss all of it, and a concrete count is the most honest reason to start Monthly.</dd>
+      <dt>Trigger</dt><dd>Monthly, on the first Tuesday, if 25 or more payable directories that fit their product joined since their last digest (or since delivery).</dd>
+      <dt>Timing</dt><dd>From day 45 after delivery (after the M4 or M5 window). Ex-Monthly customers join 90 days after Monthly ended (M9 covers them before that).</dd>
+      <dt>Goal</dt><dd>Monthly starts, and staying top of mind for the next launch.</dd>
+      <dt>Don't send when</dt><dd>Monthly is on. Fewer than 25 new. M9 went in the last 30 days. Sunset after M10b. Refunded, missed guarantee, unsubscribed, or switched this digest off.</dd>
+    </dl>
+    <div class="mail">
+      <div class="hd"><div><span>Subject</span><b>{new_dirs} new directories this month</b></div><div><span>Preview</span>Like {examples}. {product} isn't on them.</div></div>
+      <div class="bd">Hi {first_name},
+
+We added {new_dirs} directories this month that would fit {product}, like {examples}.
+
+{product} isn't on any of them. Monthly would get it on up to 50 a month for $29, at least 25 or the next month is free: {monthly_link}
+
+Not interested? You can turn these notes off here: {prefs_link}
+
+Farooq</div>
+    </div>
+  </div>
+</article>
+</section>
+
+<!-- ============================== RULES ============================== -->
+<section id="rules">
+<h2>Rules of the program</h2>
+<p class="section-intro">These apply to every mail above. The Worker decides who gets what, in one place, with one ledger (<code>mail_sent</code>) across every provider, so caps and suppressions can't be dodged by sending from somewhere else.</p>
+
+<h4 id="legal">1. Consent and legal</h4>
+<div class="tw">
+<table class="caps">
+<thead><tr><th>Class</th><th>What it is</th><th>Mails</th><th>Unsubscribe</th><th>Postal address</th><th>Basis</th></tr></thead>
+<tbody>
+<tr><td><span class="tag t">Transactional</span></td><td>Confirms, delivers or bills what they bought, or lets them in</td><td>T1 to T16, M2 failed-payment variant</td><td>Not required; can't be turned off</td><td>Not required by CAN-SPAM; add it once it exists</td><td>The contract</td></tr>
+<tr><td><span class="tag n">Notification</span></td><td>Something in their launch needs them or just happened</td><td>N1 to N7</td><td>Preference link for digests (N6) and update frequency (T3)</td><td>Same as transactional</td><td>The contract</td></tr>
+<tr><td><span class="tag svc">Service</span></td><td>About the service they bought, no promotion</td><td>M3, M6</td><td>Stops with a marketing unsubscribe too, out of respect</td><td>Same as transactional</td><td>The contract</td></tr>
+<tr><td><span class="tag m">Marketing</span></td><td>Promotes a product, a plan or a purchase</td><td>M1, M2a, M2b, M4, M5, M7, M8, M9, M10, M11</td><td>Required in every mail, one click, no login</td><td>Required in every mail</td><td>Soft opt-in for customers, consent for everyone else</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+  <ul>
+    <li><strong>Primary purpose rule (CAN-SPAM).</strong> A mail that mixes a receipt and a pitch is judged by its subject and by what comes first. Keep T and N mails free of pitches. The Everything free-month paragraph in T6 is part of what they bought, so it is stated as fact and placed last. No Monthly offer in Launch buyers' transactional mail.</li>
+    <li><strong>CAN-SPAM (US) for marketing.</strong> Honest From and subject, the sender's postal address, an opt-out that works for at least 30 days after each send and is honored within 10 business days (we do it instantly), and the mail recognisable as promotional unless they opted in. The footer line "It's a product note, not a receipt" does that without breaking the voice.</li>
+    <li><strong>GDPR and ePrivacy (EU), UK GDPR and PECR (UK).</strong> Marketing email to individuals needs consent, except the soft opt-in for customers: the address came from a sale, the mail is about similar products of ours, and they were given a simple way to refuse when we collected it and in every mail since. Monthly, the add-on and a second launch are similar products, so customers qualify once checkout offers the opt-out. People who never bought (preview, abandoned checkout) need consent. The UK regulator reads "negotiations for a sale" to include a started purchase; EU countries read it more narrowly, so EU abandoned checkouts get M2a only.</li>
+    <li><strong>CASL (Canada).</strong> Implied consent lasts 2 years after a purchase and 6 months after an inquiry. Same identification, address and unsubscribe rules.</li>
+    <li><strong>Record the basis</strong> on every contact: consent, soft opt-in, or none, with the time, the source (checkout, preview, dashboard) and the country. Country and time zone come free from Cloudflare on the request (<code>request.cf</code>). When the country is unknown, apply the strictest rule.</li>
+    <li><strong>Privacy page.</strong> It already lists "Contact you about the service after your order ends" under legitimate interests with a right to object. It still needs the controller's name and address, a consent line for preview emails, and the marketing provider in the processor list.</li>
+  </ul>
+</div>
+<div class="two">
+  <div class="card">
+    <h3>Capture changes</h3>
+    <ul>
+      <li><strong>Checkout:</strong> under the email field, one line and an unticked box. "I'll email you about your launch. Now and then I'll send a note about new directories or Monthly. Tick to skip those." That is the soft opt-in's "chance to refuse".</li>
+      <li><strong>Preview:</strong> "Email me this preview" plus an unticked "and send me 2 short follow-ups". Only the box allows M1b and M1c.</li>
+      <li><strong>Dashboard:</strong> a preferences panel: product news on or off, weekly went-live note on or off, launch updates daily or "only when you need me".</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Unsubscribe mechanics</h3>
+    <ul>
+      <li>A signed per-person token link, one click, no login, working for at least 60 days after each send.</li>
+      <li><code>List-Unsubscribe</code> and <code>List-Unsubscribe-Post: List-Unsubscribe=One-Click</code> headers on every marketing mail. If the Cloudflare binding can't set custom headers, that is one more reason marketing goes through its own provider.</li>
+      <li>Unsubscribing stops group C (marketing and service) at once. T and N keep going, because they are the service.</li>
+      <li>Bounces and complaints from either provider land in the same suppression table.</li>
+    </ul>
+  </div>
+</div>
+<div class="callout bad">
+  <strong>The postal address blocks all marketing</strong>
+  <p>The seller's legal name and address are still pending, so <code>LEGAL_NAME</code> and <code>LEGAL_ADDRESS</code> are unset and the footer has no address. Until they are filled, no group C marketing mail can go: M1, M2a and M2b, M4, M5, M7, M8, M9, M10 and M11. Transactional mail, notifications and the two service mails (M3, M6) can go now. If the legal entity takes time, a virtual mailbox or a PO box registered for mail is a valid CAN-SPAM address and unblocks the US side; the privacy page still needs the controller named for GDPR.</p>
+</div>
+<p class="note">This is a plan, not legal advice. Have the consent wording and the privacy page checked once the seller entity exists.</p>
+
+<h4 id="caps">2. Frequency caps</h4>
+<div class="tw">
+<table class="caps">
+<thead><tr><th>Rule</th><th>Limit</th><th>Applies to</th></tr></thead>
+<tbody>
+<tr><td>Money and access</td><td>Always go, never capped. Other mails make way for them.</td><td>T4, T5, T7, T8, T11, T13, T14</td></tr>
+<tr><td>Launch week</td><td>2 mails a day per customer at most, sign-in links not counted</td><td>Everything while the order is paid or delivering</td></tr>
+<tr><td>Daily update</td><td>1 a day, skipped on a day another launch mail goes</td><td>T3</td></tr>
+<tr><td>Notifications</td><td>1 a day per order, bundled. Repeats: N2 twice, N3 twice, N4 three times, N5 three times per sign-in event</td><td>N1 to N5</td></tr>
+<tr><td>Service mails</td><td>1 a week</td><td>M3, M6</td></tr>
+<tr><td>Marketing</td><td>None during a running launch. 1 in any 7 days, 3 in any 30 days. Never within 24 hours of another mail, except a sign-in link.</td><td>All marketing</td></tr>
+<tr><td>Weekly ceiling after the launch</td><td>5 mails a week, all classes, money and sign-in excluded</td><td>Everyone</td></tr>
+<tr><td>Collisions</td><td>T, then N, then M6, M3, M5, M4, M2, M7, M8, M11, M9, M10, M1. A blocked marketing mail moves to the next free day and is dropped after 3 days.</td><td>Everyone</td></tr>
+</tbody>
+</table>
+</div>
+
+<h4 id="suppression">3. Suppression</h4>
+<div class="tw">
+<table class="sup">
+<thead><tr><th>Condition</th><th>Transactional</th><th>Notifications</th><th>Service</th><th>Marketing</th></tr></thead>
+<tbody>
+<tr><td>Refunded, or guarantee missed</td><td class="yes">Send</td><td class="no">Stop (the launch is over)</td><td class="no">Stop</td><td class="no">Never automated</td></tr>
+<tr><td>Dispute or chargeback open</td><td class="hold">Only what the money needs</td><td class="no">Stop</td><td class="no">Stop</td><td class="no">Stop</td></tr>
+<tr><td>Open support thread</td><td class="yes">Send</td><td class="yes">Send</td><td class="hold">Hold</td><td class="hold">Hold</td></tr>
+<tr><td>Unsubscribed from news</td><td class="yes">Send</td><td class="yes">Send</td><td class="no">Stop</td><td class="no">Stop</td></tr>
+<tr><td>Spam complaint</td><td class="hold">Money and sign-in only</td><td class="no">Stop</td><td class="no">Stop</td><td class="no">Stop for good</td></tr>
+<tr><td>Hard bounce</td><td class="hold">Stop, flag to owner; a requested sign-in link still tries</td><td class="no">Stop</td><td class="no">Stop</td><td class="no">Stop</td></tr>
+<tr><td>Test-mode order or our own address</td><td class="yes">Send</td><td class="yes">Send</td><td class="no">Stop</td><td class="no">Stop</td></tr>
+<tr><td>Monthly is on</td><td class="yes">Send</td><td class="yes">Send</td><td class="yes">Send</td><td class="hold">No Monthly offers (M4, M5, M9, M11)</td></tr>
+<tr><td>Launch running</td><td class="yes">Send</td><td class="yes">Send</td><td class="yes">M3, M6 only</td><td class="no">Stop</td></tr>
+<tr><td>Delivered short of the 7-day number</td><td class="yes">Send</td><td class="yes">Send</td><td class="yes">Send</td><td class="no">No M4, M7, M8</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+  <ul>
+    <li><strong>"Open support thread" needs a signal.</strong> Support mail is forwarded to Gmail and filed as system mail today, with no thread state. Add <code>users.support_open_at</code>: set when mail to support@ comes from a customer's address, cleared by one admin button or 5 days after their last message.</li>
+    <li><strong>Unhappy replies count.</strong> An admin tag "unhappy" on a reply to M3 or M7 suppresses M7, M8 and M4b for that customer.</li>
+    <li><strong>Internal addresses</strong> (the owner's test inboxes and test products) sit on a fixed list that no group C mail ever reaches.</li>
+  </ul>
+</div>
+
+<h4 id="infra">4. Sending infrastructure</h4>
+<div class="two">
+  <div class="card">
+    <h3>Today</h3>
+    <ul>
+      <li>One Cloudflare Email Sending account, about 200 a day, shared with Closefast.</li>
+      <li>OCL holds deferrable mail after 120 of its own sends. Closefast and owner alerts (up to 6 an hour) aren't counted, so the real headroom on a busy day is unknown.</li>
+      <li>When the account limit is hit, even sign-in links fail, and the sign-in page says "couldn't send the sign-in link".</li>
+      <li>Customer mail goes from the same registrable domain that signs up to 700+ directories (<code>thereisnomoat.fyi</code>). That domain's reputation should never carry customer mail.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Recommended</h3>
+    <ul>
+      <li><strong>Transactional and notifications</strong> stay on Cloudflare Email Sending, moved to <code>mail.oneclicklaunch.dev</code>, From "Farooq from One-Click Launch", reply-to <code>farooq@oneclicklaunch.dev</code> routed to the support inbox. Set <code>APP_ORIGIN</code> so links are on the same brand domain.</li>
+      <li><strong>Marketing</strong> on its own provider and subdomain, <code>news.oneclicklaunch.dev</code>, so it can never eat the transactional quota and its complaints never touch receipts or sign-in. The Worker still decides and logs every send; the provider only delivers and reports bounces and complaints back.</li>
+      <li><code>thereisnomoat.fyi</code> stays the directory inbox only.</li>
+    </ul>
+  </div>
+</div>
+<div class="card">
+  <h3>Quota fixes, before any volume grows</h3>
+  <ol>
+    <li>Count every send on the account: owner alerts, and Closefast's sends (or move Closefast to its own Cloudflare account). Ask Cloudflare to raise the daily limit once volume justifies it.</li>
+    <li>Add to the priority kinds: <code>result</code> (T4), <code>trial_end</code> (T11), Monthly started (T10), payment failed (T13), cancelled (T14), other refunds (T7).</li>
+    <li>Retry T4 and T12 from a cron when deferred, like retryStarted, so nothing is lost.</li>
+    <li>Tier the reserve: under 100 sends everything goes; 100 to 140 only transactional plus N1 and N5; over 140 only priority kinds.</li>
+    <li>Replace the forever-daily digest with T3 in launch week and N6 weekly after delivery. That alone takes most of the daily load off.</li>
+  </ol>
+</div>
+<div class="card">
+  <h3>Marketing provider: what to pick</h3>
+  <p>The program is plain text composed in the Worker, at small volume, so it needs an API more than an editor. Recommended: <strong>Amazon SES</strong> on <code>news.oneclicklaunch.dev</code>. It costs $0.10 per 1,000 mails, has its own reputation, and reports bounces and complaints by webhook; we build the unsubscribe page, which we need for preferences anyway. SES has to approve production access before it sends to anyone. Any other provider works if it has: an API, a dedicated authenticated subdomain, one-click unsubscribe headers, and bounce and complaint webhooks.</p>
+</div>
+<h4>Authentication and warm-up</h4>
+<div class="tw">
+<table class="caps">
+<thead><tr><th>Week</th><th>mail.oneclicklaunch.dev (transactional)</th><th>news.oneclicklaunch.dev (marketing)</th><th>Move on when</th></tr></thead>
+<tbody>
+<tr><td>Before</td><td colspan="2">SPF and DKIM on each subdomain. DMARC on the root at <code>p=none</code> with reports. Both subdomains in Google Postmaster Tools. Links only on <code>oneclicklaunch.dev</code>: no shorteners, no third-party click trackers.</td><td>All records pass</td></tr>
+<tr><td>1</td><td>New orders only. In-flight orders finish on the old sender.</td><td>20 to 30 a day, most engaged first: delivered in the last 30 days, replied or clicked.</td><td rowspan="3">Complaints under 0.1%, hard bounces under 2%, Postmaster reputation not Low</td></tr>
+<tr><td>2</td><td>All transactional and notifications.</td><td>50 a day.</td></tr>
+<tr><td>3</td><td>Old sender retired.</td><td>100 a day.</td></tr>
+<tr><td>4 on</td><td colspan="2">DMARC to <code>p=quarantine</code>. Marketing doubles weekly up to what the program needs. Step back a week on any breach.</td><td>Same</td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">Gmail and Yahoo's bulk sender rules (authenticated mail, one-click unsubscribe, spam rate under 0.3%) start at 5,000 a day to Gmail. We're far below, but follow them anyway. Plain text and mails that invite replies are the best warm-up there is.</p>
+
+<h4 id="measure">5. Measurement</h4>
+<div class="two">
+  <div class="card">
+    <h3>Links and clicks</h3>
+    <ul>
+      <li><strong>UTMs on every link</strong>: <code>utm_source=email</code>, <code>utm_medium</code> = transactional, notification, service or marketing, <code>utm_campaign</code> = the mail id (<code>t02</code>, <code>m04a</code>), <code>utm_content</code> = link or variant.</li>
+      <li><strong>The dashboard is hash-routed</strong>, so the query goes before the hash: <code>https://oneclicklaunch.dev/app/?utm_source=email&amp;utm_medium=marketing&amp;utm_campaign=m04a#/order/{order}</code>.</li>
+      <li><strong>Clicks</strong> through our own redirect, <code>/r/{mail_key}/{n}</code>, logged first-party. Never on sign-in links.</li>
+      <li><strong>Opens are not a metric.</strong> Apple Mail preloads images, so opens lie. Use clicks, replies and conversions.</li>
+      <li><strong>Credit dashboard purchases.</strong> <code>attachCheckout</code> stores no attribution today; pass the UTMs from the dashboard URL into the Monthly and add-on checkouts. The order columns already exist.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Conversion events (server side)</h3>
+    <ul>
+      <li><code>monthly_started</code>, <code>monthly_trial_started</code>, <code>monthly_kept</code> (past the first charge)</li>
+      <li><code>addon_bought</code>, <code>second_product_bought</code>, <code>referral_purchase</code></li>
+      <li><code>checkout_recovered</code> (a pending order paid after M2)</li>
+      <li><code>badge_placed</code> (badge_ok flips), <code>own_email_verified</code>, <code>google_connected</code>, <code>directory_reply_answered</code></li>
+      <li><code>testimonial_received</code> (admin tag), <code>unsubscribed</code>, <code>complaint</code></li>
+    </ul>
+    <p class="note">Each joins to <code>mail_sent</code> by customer and time: 7 days after a click for marketing, last touch.</p>
+  </div>
+</div>
+<div class="card">
+  <h3>Holdouts and health</h3>
+  <ul>
+    <li><strong>10% holdout</strong> on M2, M4, M5, M9 and M11: a fixed hash of customer and flow. The held-back mail is written to <code>mail_sent</code> with status <code>holdout</code>, so both groups are the same kind of people.</li>
+    <li><strong>Readouts</strong>: M4 and M5, Monthly start rate 30 days after delivery. M2, paid within 7 days. M9 and M11, Monthly restarts within 60 days. Read only after about 100 people in each group; before that, treat results as direction, not proof.</li>
+    <li><strong>No holdout</strong> on transactional, notifications or service mails: they are the service. For N2 and N3, compare badge and company email rates before and after.</li>
+    <li><strong>Weekly health</strong> per class: hard bounces under 2%, complaints under 0.1%, marketing unsubscribes under 0.5% a send, founder mail replies over 2%. Add a mail view to the admin funnel (<code>/api/admin/funnel</code>).</li>
+  </ul>
+</div>
+</section>
+
+<!-- ============================== BUILD ORDER ============================== -->
+<section id="build">
+<h2>Build order</h2>
+<p class="section-intro">Ordered by what protects money and trust first, then what adds listings, then the foundation that marketing needs, then revenue flows from the most likely to convert.</p>
+<div class="phases-build">
+  <div class="card">
+    <h3><span class="tag t">Phase 0</span> Sender and quota, mostly config</h3>
+    <ol>
+      <li>From "Farooq from One-Click Launch", reply-to a mailbox Farooq reads, <code>APP_ORIGIN</code> on oneclicklaunch.dev, start the <code>mail.oneclicklaunch.dev</code> warm-up.</li>
+      <li>Count owner alerts and Closefast in the budget. Add the priority kinds. Retry T4 and T12.</li>
+      <li>Rewrite the existing copy: T1, T2, T4, T5, T6 (fix "launch launch"), T8, T10, T11, T12, N4a, N4b, N5. Store the customer's first name from Dodo, plus country and time zone.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3><span class="tag t">Phase 1</span> Money gaps and the mails that add listings</h3>
+    <ol start="4">
+      <li>T13 payment failed, T14 cancelled, T15 ended, T7 other refunds, T12 short-month paragraph, T9 add-on bought.</li>
+      <li>N2a setup mail (badge and company email), N2b gap closer, N3b, N4c and the add-on refund rule, N1 directory needs you, N5 cap.</li>
+      <li>T3 daily update in launch week and N6 weekly after delivery, replacing the forever-daily digest. Add "only when you need me" to the mail setting.</li>
+      <li>M3 founder check-in and M6a first listing live. Service mails, no legal blocker.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3><span class="tag m">Phase 2</span> Marketing foundation (needs the seller's details)</h3>
+    <ol start="8">
+      <li>Seller legal name and postal address into <code>LEGAL_NAME</code>, <code>LEGAL_ADDRESS</code>, <code>site-config.js</code> and the privacy page.</li>
+      <li>Contacts and consent records, unsubscribe link and page, preferences, one-click headers, suppression table, support-open flag, mail classes and caps in the ledger, click redirect, UTMs on dashboard checkouts.</li>
+      <li>Checkout opt-out line. Preview email field with its consent box.</li>
+      <li>Marketing provider on <code>news.oneclicklaunch.dev</code>, authenticated and warming up.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3><span class="tag m">Phase 3</span> Revenue flows, in this order</h3>
+    <ol start="12">
+      <li>M5 Everything free month, with M5c. Already paid for, the easiest yes.</li>
+      <li>M4 Monthly for Launch buyers, with the <span class="tk">{waiting}</span> count.</li>
+      <li>M2 abandoned checkout, with the resume link.</li>
+      <li>M7 testimonials, feeding the proof page.</li>
+      <li>M11 new-directories digest and M9 win-back, with a cancel reason in the dashboard.</li>
+      <li>M8 referral (once the reward is decided), M10 re-engagement and sunset, M1 preview follow-ups.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="two">
+  <div class="card">
+    <h3>Owner decisions</h3>
+    <ol>
+      <li>Seller legal name, address and country.</li>
+      <li>Marketing provider (recommended: SES).</li>
+      <li>Referral reward (recommended: $20 off for the friend, a free month of Monthly for the referrer).</li>
+      <li>The $39 add-on when Google is never connected (recommended: automatic refund at delivery).</li>
+      <li>Short Monthly month: automate the Dodo billing-date move, or keep it manual and send the T12 paragraph after.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>Assumptions to check</h3>
+    <ol>
+      <li>Dodo emails its own receipt for each payment and renewal, so our mails don't repeat one.</li>
+      <li>What Dodo sends on a failed renewal, so T13 sits between its mails.</li>
+      <li>A Dodo link where a customer can update their card, for T13.</li>
+      <li>Whether the Cloudflare send binding can set custom headers, for one-click unsubscribe.</li>
+      <li>How long a Dodo checkout session stays valid, for the M2 resume link.</li>
+    </ol>
+  </div>
+</div>
+<div class="card">
+  <h3>Data the program needs that doesn't exist yet</h3>
+  <ul>
+    <li>Customer first name (from Dodo), country and time zone (from <code>request.cf</code> at checkout and preview).</li>
+    <li>A contacts table for people who aren't customers yet: email, source, consent, time, country.</li>
+    <li>Per user: marketing basis, opted out at, support open at, unhappy tag, sunset at.</li>
+    <li>On <code>mail_sent</code>: class, campaign, variant, holdout. A <code>mail_clicks</code> table.</li>
+    <li>Per product: <span class="tk">{waiting}</span> (plan directories never queued because of the cap), new payable directories since a date, badge-pending count, first live listing.</li>
+    <li>On Monthly orders: cancel reason. Referral codes and who referred whom.</li>
+  </ul>
+</div>
+</section>
+
+<footer class="end">
+  <p>One-Click Launch lifecycle email program. Built from <code>notify.ts</code>, <code>mail.ts</code>, <code>orders.ts</code>, <code>monthly.ts</code>, <code>auth.ts</code>, <code>ownmail.ts</code>, <code>gaccounts.ts</code>, <code>alerts.ts</code>, <code>plans.ts</code>, <code>entitle.ts</code>, <code>events.ts</code>, the landing checkout and the privacy page, as of 21 November 2026. No email was sent and no app file was changed.</p>
+</footer>
+
+</div>
+<script>
+(function () {
+  var tables = document.querySelectorAll("table");
+  for (var t = 0; t < tables.length; t++) {
+    var tb = tables[t];
+    if (tb.querySelector("[rowspan], [colspan]")) continue;
+    var heads = tb.querySelectorAll("thead th");
+    var rows = tb.querySelectorAll("tbody tr");
+    for (var r = 0; r < rows.length; r++) {
+      var cells = rows[r].children;
+      for (var c = 0; c < cells.length; c++) if (heads[c]) cells[c].setAttribute("data-l", heads[c].textContent);
+    }
+    tb.classList.add("stack");
+    if (tb.parentNode.classList.contains("tw")) tb.parentNode.classList.add("stacked");
+  }
+  var els = document.querySelectorAll(".mail .bd, .mail .hd");
+  for (var i = 0; i < els.length; i++) {
+    var h = els[i].innerHTML;
+    h = h.replace(/\[[^\]<>\n]+\]/g, function (m) { return '<span class="cond">' + m + "</span>"; });
+    h = h.replace(/\{[a-z0-9_]+\}/g, function (m) { return '<span class="tk">' + m + "</span>"; });
+    els[i].innerHTML = h;
+  }
+})();
+</script>
+</body>
+</html>
