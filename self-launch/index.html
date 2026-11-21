@@ -28,12 +28,12 @@ ul{padding-left:18px;margin:6px 0}li{margin:5px 0}
 <p class="lede">oneclicklaunch.dev bought as a customer: Everything, plus the High authority add-on, plus Monthly. Payments were simulated with Dodo's own signed webhook (no money moved). Customer email masked in screenshots.</p>
 
 <h2>The journey</h2>
-<div class="step"><p><b class="n">1</b>Free preview, first try: "We couldn't open that site". <span class="tag warn">open</span></p><img src="img/01_preview.jpg" alt="Preview stopped"></div>
+<div class="step"><p><b class="n">1</b>Free preview, first try: "We couldn't open that site". <span class="tag ok">fixed</span></p><img src="img/01_preview.jpg" alt="Preview stopped"></div>
 <div class="step"><p><b class="n">2</b>Second try: cleared for launch, 1,348 directories.</p><img src="img/02_preview.jpg" alt="Preview result"></div>
 <div class="step"><p><b class="n">3</b>Checkout, Everything $149 on Dodo with the new numbers. Payment simulated.</p><img src="img/03_dodo_checkout.jpg" alt="Dodo checkout"></div>
 <div class="step"><p><b class="n">4</b>Back from Dodo: signed in instantly, onboarding checks.</p><img src="img/04_onboarding.jpg" alt="Onboarding"></div>
 <div class="step"><p><b class="n">5</b>Site confirmed, listing kit approved. Badge block offered (about 62 more listings).</p><img src="img/05_onboarding_done.jpg" alt="Onboarding done"></div>
-<div class="step"><p><b class="n">6</b>Dashboard two minutes after paying: already "At risk". <span class="tag warn">open</span></p><img src="img/06_dashboard.jpg" alt="Dashboard"></div>
+<div class="step"><p><b class="n">6</b>Dashboard two minutes after paying: already "At risk". <span class="tag ok">fixed</span></p><img src="img/06_dashboard.jpg" alt="Dashboard"></div>
 <div class="step"><p><b class="n">7</b>"Add Google sign-in" is account login, not the add-on; Google accepts the new domain.</p><img src="img/07b_google_signin_option.jpg" alt="Google sign-in"></div>
 <div class="step"><p><b class="n">8</b>Add-ons on the dashboard: High authority $39, Monthly free month.</p><img src="img/07_addons_on_dashboard.jpg" alt="Add-ons"></div>
 <div class="step"><p><b class="n">9</b>High authority checkout, $39. Payment simulated.</p><img src="img/08_addon_checkout.jpg" alt="Add-on checkout"></div>
@@ -43,6 +43,8 @@ ul{padding-left:18px;margin:6px 0}li{margin:5px 0}
 <div class="step"><p><b class="n">13</b>Welcome link opened by a stranger: no sign-in, but it showed the full email. <span class="tag ok">fixed</span></p><img src="img/13_stranger_welcome.jpg" alt="Stranger welcome"></div>
 <div class="step"><p><b class="n">14</b>After the fixes: email from "Farooq from One-Click Launch", footer is brand and support only.</p><img src="img/14_email_from_farooq.jpg" alt="Email from Farooq"></div>
 <div class="step"><p><b class="n">15</b>25 minutes in: 31 accepted (6 live), on track for 350 by 48 hours.</p><img src="img/15_progress.jpg" alt="Progress"></div>
+<div class="step"><p><b class="n">16</b>Dodo checkout now carries the logo. <span class="tag ok">fixed</span></p><img src="img/16_dodo_logo.jpg" alt="Dodo checkout logo"></div>
+<div class="step"><p><b class="n">17</b>Login button reads "Log in with Google too"; 40 minutes in, 53 accepted. <span class="tag ok">fixed</span></p><img src="img/17_google_labels.jpg" alt="New Google labels"></div>
 
 <h2>Findings</h2>
 <div class="card"><ul>
@@ -50,11 +52,12 @@ ul{padding-left:18px;margin:6px 0}li{margin:5px 0}
 <li><span class="tag ok">fixed</span>Email links took the sentence's full stop, so the dashboard link broke.</li>
 <li><span class="tag ok">fixed</span>The welcome link showed the customer's email and mailed them a sign-in link on every visit. Now a hint only (f•••@gmail.com).</li>
 <li><span class="tag ok">fixed</span>Legal name and address removed from every email.</li>
-<li><span class="tag warn">open</span>First preview of a site can fail once ("couldn't open"); a retry works.</li>
-<li><span class="tag warn">open</span>"At risk" and "Behind pace" show in the first minutes after payment (turns "On track" once listings land).</li>
-<li><span class="tag warn">open</span>Two different Google buttons sit side by side (login and the add-on).</li>
-<li><span class="tag warn">open</span>Dodo checkout shows a plain "O" instead of the logo.</li>
-<li><span class="tag warn">open</span>This order counts as real revenue in stats; a missed guarantee would try a refund on a payment that never happened.</li>
+<li><span class="tag ok">fixed</span>Previewing oneclicklaunch.dev from oneclicklaunch.dev always failed (Cloudflare blocks a site fetching itself). Now read from our own files; other sites get one retry.</li>
+<li><span class="tag ok">fixed</span>"At risk" showed minutes after payment. The first 3 hours now say "Starting" until there is a pace to judge.</li>
+<li><span class="tag ok">fixed</span>Two look-alike Google buttons. Now "Log in with Google too" and "Connect Google for listings".</li>
+<li><span class="tag ok">fixed</span>Dodo checkout showed a plain "O". Logo now set.</li>
+<li><span class="tag ok">fixed</span>This order counted as revenue and blocked deploys. Marked as a test order: out of revenue, no deploy block, no refund alert.</li>
+<li><span class="tag ok">fixed</span>Found on the way: browsers kept old dashboard code for 4 hours after a deploy. Now they check for new code on every visit.</li>
 </ul></div>
 
 <h2>Security checks</h2>
