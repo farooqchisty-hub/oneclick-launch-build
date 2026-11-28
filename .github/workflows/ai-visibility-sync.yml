@@ -54,7 +54,7 @@ jobs:
           import sys
           path, run = sys.argv[1:3]
           t = open(path, encoding="utf-8").read()
-          if "—" in t or "–" in t:
+          if "\u2014" in t or "\u2013" in t:
               sys.exit(f"{path}: contains an em or en dash")
           if 'name="ai-visibility-run"' in t and f'content="{run}"' not in t:
               sys.exit(f"{path}: rendered for another run than {run}")
